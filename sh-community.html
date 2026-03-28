@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SH Community – Private Elite Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --black:#0B0B0B;--dark:#1F1F1F;--grey:#2E2E2E;--silver:#C0C0C0;
+  --yellow:#FFD700;--yellow2:#FFC200;--white:#FFFFFF;
+  --glass:rgba(255,255,255,0.04);--glass2:rgba(255,215,0,0.08);
+  --border:rgba(255,255,255,0.08);--border-y:rgba(255,215,0,0.25);
+  --shadow:0 8px 32px rgba(0,0,0,0.6);--shadow-y:0 0 40px rgba(255,215,0,0.15);
+  --radius:14px;--radius-sm:8px;
+  --sidebar:260px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;}
+h1,h2,h3,.display{font-family:'Bebas Neue',sans-serif;letter-spacing:1px;}
+.mono{font-family:'JetBrains Mono',monospace;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:var(--grey);border-radius:10px;}
+
+/* UTILITY */
+.hidden{display:none!important;}
+.flex{display:flex;}.flex-col{flex-direction:column;}.items-center{align-items:center;}.justify-between{justify-content:space-between;}.justify-center{justify-content:center;}
+.gap-1{gap:6px;}.gap-2{gap:12px;}.gap-3{gap:20px;}.gap-4{gap:32px;}
+.text-yellow{color:var(--yellow)!important;}.text-silver{color:var(--silver);}.text-sm{font-size:13px;}.text-xs{font-size:11px;}.text-lg{font-size:18px;}.text-xl{font-size:22px;}
+.fw-600{font-weight:600;}.fw-300{font-weight:300;}
+.w-full{width:100%;}.mt-1{margin-top:6px;}.mt-2{margin-top:12px;}.mt-3{margin-top:20px;}.mt-4{margin-top:32px;}.mb-2{margin-bottom:12px;}
+.p-2{padding:12px;}.p-3{padding:20px;}.p-4{padding:32px;}
+.rounded{border-radius:var(--radius);}.rounded-sm{border-radius:var(--radius-sm);}
+.truncate{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+
+/* GLASS CARD */
+.card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:24px;backdrop-filter:blur(12px);transition:all .3s;}
+.card:hover{border-color:var(--border-y);box-shadow:var(--shadow-y);}
+.card-yellow{background:var(--glass2);border-color:var(--border-y);}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:all .25s;text-decoration:none;}
+.btn-primary{background:linear-gradient(135deg,var(--yellow),var(--yellow2));color:#000;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,0.35);}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--yellow);color:var(--yellow);}
+.btn-dark{background:var(--dark);color:var(--white);border:1px solid var(--border);}
+.btn-dark:hover{background:var(--grey);}
+.btn-danger{background:rgba(255,60,60,0.15);color:#ff6b6b;border:1px solid rgba(255,60,60,0.3);}
+.btn-danger:hover{background:rgba(255,60,60,0.25);}
+.btn-success{background:rgba(60,255,120,0.12);color:#4ade80;border:1px solid rgba(60,255,120,0.3);}
+.btn-success:hover{background:rgba(60,255,120,0.22);}
+.btn-sm{padding:6px 14px;font-size:12px;}
+.btn-lg{padding:14px 32px;font-size:16px;}
+.btn-icon{padding:8px;border-radius:8px;background:var(--glass);border:1px solid var(--border);}
+.btn-icon:hover{background:var(--grey);}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+.badge-yellow{background:rgba(255,215,0,0.15);color:var(--yellow);border:1px solid var(--border-y);}
+.badge-green{background:rgba(74,222,128,0.12);color:#4ade80;border:1px solid rgba(74,222,128,0.25);}
+.badge-red{background:rgba(255,107,107,0.12);color:#ff6b6b;border:1px solid rgba(255,107,107,0.25);}
+.badge-silver{background:rgba(192,192,192,0.1);color:var(--silver);border:1px solid rgba(192,192,192,0.2);}
+.badge-blue{background:rgba(96,165,250,0.12);color:#60a5fa;border:1px solid rgba(96,165,250,0.25);}
+
+/* FORM */
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--silver);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+.form-input{width:100%;background:var(--dark);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:all .2s;}
+.form-input:focus{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,215,0,0.08);}
+.form-input::placeholder{color:rgba(255,255,255,0.25);}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C0C0C0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.form-textarea{resize:vertical;min-height:100px;}
+.form-error{color:#ff6b6b;font-size:12px;margin-top:4px;}
+
+/* AVATAR */
+.avatar{border-radius:50%;object-fit:cover;border:2px solid var(--border);}
+.avatar-sm{width:32px;height:32px;}
+.avatar-md{width:44px;height:44px;}
+.avatar-lg{width:64px;height:64px;}
+.avatar-xl{width:96px;height:96px;}
+.avatar-placeholder{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--yellow),var(--yellow2));color:#000;font-weight:700;border-radius:50%;}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.divider-y{height:1px;background:linear-gradient(90deg,transparent,var(--yellow),transparent);margin:20px 0;}
+
+/* TOAST */
+#toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;}
+.toast{background:var(--dark);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 18px;min-width:260px;max-width:360px;display:flex;align-items:center;gap:10px;font-size:13px;animation:slideIn .3s ease;box-shadow:var(--shadow);}
+.toast.success{border-left:3px solid #4ade80;}
+.toast.error{border-left:3px solid #ff6b6b;}
+.toast.info{border-left:3px solid var(--yellow);}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s;}
+.modal{background:var(--dark);border:1px solid var(--border);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow);}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-body{padding:24px;}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+/* ===== NAVIGATION ===== */
+#navbar{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(11,11,11,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all .3s;}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--yellow),var(--yellow2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:#000;font-weight:900;}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{padding:7px 14px;border-radius:7px;color:var(--silver);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;border:none;background:none;}
+.nav-link:hover,.nav-link.active{color:var(--white);background:var(--glass);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+
+/* ===== SIDEBAR ===== */
+#sidebar{position:fixed;top:0;left:0;width:var(--sidebar);height:100vh;background:var(--dark);border-right:1px solid var(--border);z-index:400;transform:translateX(-100%);transition:transform .3s;overflow-y:auto;padding-top:64px;}
+#sidebar.open{transform:translateX(0);}
+.sidebar-section{padding:20px 16px 8px;}
+.sidebar-section-title{font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:1.5px;text-transform:uppercase;padding:0 8px;margin-bottom:6px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;color:var(--silver);font-size:14px;font-weight:500;transition:all .2s;position:relative;}
+.sidebar-item:hover{background:var(--glass);color:var(--white);}
+.sidebar-item.active{background:var(--glass2);color:var(--yellow);border:1px solid var(--border-y);}
+.sidebar-item .icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-badge{position:absolute;right:10px;background:var(--yellow);color:#000;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:350;display:none;}
+.sidebar-overlay.show{display:block;}
+
+/* ===== MAIN CONTENT ===== */
+#app{min-height:100vh;}
+.page{display:none;animation:pageIn .35s ease;}
+.page.active{display:block;}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.dashboard-layout{display:flex;padding-top:64px;min-height:100vh;}
+.dashboard-sidebar-space{width:var(--sidebar);flex-shrink:0;}
+.dashboard-content{flex:1;padding:32px;min-width:0;max-width:calc(100vw - var(--sidebar));}
+.page-header{margin-bottom:28px;}
+.page-header h2{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;}
+.page-header p{color:var(--silver);font-size:14px;margin-top:4px;}
+
+/* ===== HOME PAGE ===== */
+#home-page{padding-top:64px;}
+
+/* Hero */
+.hero{min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:40px 20px;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(255,215,0,0.08) 0%,transparent 70%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);}
+.hero-content{position:relative;z-index:1;max-width:760px;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--glass2);border:1px solid var(--border-y);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--yellow);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;animation:fadeUp .6s ease both;}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--yellow);border-radius:50%;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,10vw,120px);line-height:.9;letter-spacing:2px;animation:fadeUp .6s .1s ease both;}
+.hero h1 span{color:var(--yellow);}
+.hero-sub{font-size:clamp(15px,2vw,18px);color:var(--silver);max-width:520px;margin:20px auto 36px;animation:fadeUp .6s .2s ease both;font-weight:300;}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s .3s ease both;}
+.hero-stats{display:flex;gap:32px;justify-content:center;margin-top:56px;animation:fadeUp .6s .4s ease both;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--yellow);line-height:1;}
+.stat-label{font-size:12px;color:var(--silver);letter-spacing:1px;text-transform:uppercase;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+/* Features section */
+.section{padding:80px 40px;max-width:1200px;margin:0 auto;}
+.section-tag{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--yellow);text-transform:uppercase;margin-bottom:12px;}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,60px);margin-bottom:16px;}
+.section p.lead{color:var(--silver);font-size:16px;max-width:560px;margin-bottom:48px;font-weight:300;}
+.feature-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:all .3s;cursor:default;position:relative;overflow:hidden;}
+.feature-card::before{content:'';position:absolute;inset:0;background:var(--glass2);opacity:0;transition:.3s;}
+.feature-card:hover::before{opacity:1;}
+.feature-card:hover{border-color:var(--border-y);transform:translateY(-4px);box-shadow:var(--shadow-y);}
+.feature-icon{width:48px;height:48px;background:var(--glass2);border:1px solid var(--border-y);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;position:relative;z-index:1;}
+.feature-card h3{font-size:16px;font-weight:600;margin-bottom:8px;position:relative;z-index:1;}
+.feature-card p{color:var(--silver);font-size:13px;line-height:1.7;position:relative;z-index:1;}
+
+/* Leader section */
+.leader-section{padding:80px 40px;background:linear-gradient(180deg,transparent,rgba(255,215,0,0.03),transparent);}
+.leader-card{max-width:900px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:0;border-radius:20px;overflow:hidden;border:1px solid var(--border-y);}
+.leader-photo{background:linear-gradient(135deg,#1F1F1F,#2E2E2E);display:flex;align-items:center;justify-content:center;min-height:340px;position:relative;}
+.leader-avatar-big{width:140px;height:140px;background:linear-gradient(135deg,var(--yellow),var(--yellow2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:56px;color:#000;border:4px solid rgba(255,215,0,0.3);}
+.leader-info{background:var(--dark);padding:40px;}
+.leader-info .role{font-size:11px;letter-spacing:2px;color:var(--yellow);text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+.leader-info h2{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:1px;margin-bottom:4px;}
+.leader-info .desc{color:var(--silver);font-size:14px;line-height:1.8;margin:16px 0;}
+.leader-tag-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+
+/* Community rules */
+.rules-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.rule-item{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);transition:.2s;}
+.rule-item:hover{border-color:var(--border-y);}
+.rule-num{width:28px;height:28px;background:var(--glass2);border:1px solid var(--border-y);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--yellow);flex-shrink:0;}
+
+/* Testimonials */
+.testimonial-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:.3s;}
+.testimonial-card:hover{border-color:var(--border-y);}
+.testimonial-text{color:var(--silver);font-size:14px;line-height:1.8;margin-bottom:20px;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:12px;}
+
+/* CTA */
+.cta-section{padding:100px 40px;text-align:center;position:relative;overflow:hidden;}
+.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(255,215,0,0.06),transparent);}
+.cta-section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,6vw,80px);position:relative;z-index:1;}
+.cta-section p{color:var(--silver);font-size:16px;margin:16px auto 36px;max-width:500px;position:relative;z-index:1;}
+.cta-section .hero-actions{position:relative;z-index:1;}
+
+/* Footer */
+footer{background:var(--dark);border-top:1px solid var(--border);padding:48px 40px 24px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-brand p{color:var(--silver);font-size:13px;line-height:1.8;margin-top:14px;max-width:260px;}
+.footer-col h4{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:14px;}
+.footer-link{display:block;color:var(--silver);font-size:13px;margin-bottom:8px;cursor:pointer;transition:.2s;}
+.footer-link:hover{color:var(--yellow);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:20px;display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,0.3);font-size:12px;}
+
+/* ===== EXPLORE PAGE ===== */
+.explore-hero{background:linear-gradient(135deg,var(--dark),var(--black));padding:60px 40px;border-bottom:1px solid var(--border);}
+.explore-content{max-width:1200px;margin:0 auto;padding:40px;}
+.explore-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:40px;}
+.exp-stat{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:24px;text-align:center;transition:.3s;}
+.exp-stat:hover{border-color:var(--border-y);box-shadow:var(--shadow-y);}
+.exp-stat .num{font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--yellow);}
+.exp-stat .lbl{color:var(--silver);font-size:12px;letter-spacing:1px;text-transform:uppercase;}
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
+.member-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;transition:.3s;}
+.member-card:hover{border-color:var(--border-y);transform:translateY(-3px);}
+.event-item{display:flex;gap:16px;padding:16px;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);transition:.2s;margin-bottom:12px;}
+.event-item:hover{border-color:var(--border-y);}
+.event-date{min-width:56px;height:56px;background:var(--glass2);border:1px solid var(--border-y);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.event-day{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--yellow);line-height:1;}
+.event-month{font-size:10px;color:var(--silver);letter-spacing:1px;text-transform:uppercase;}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.gallery-item{aspect-ratio:1;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;transition:.3s;overflow:hidden;}
+.gallery-item:hover{border-color:var(--yellow);transform:scale(1.03);}
+
+/* ===== JOIN PAGE ===== */
+.join-page{min-height:100vh;padding:80px 20px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(255,215,0,0.05),transparent);}
+.join-card{width:100%;max-width:600px;background:var(--dark);border:1px solid var(--border);border-radius:20px;overflow:hidden;}
+.join-header{background:linear-gradient(135deg,var(--glass2),transparent);border-bottom:1px solid var(--border-y);padding:32px;}
+.join-body{padding:32px;}
+.join-success{text-align:center;padding:48px 32px;}
+.join-success .check{width:72px;height:72px;background:rgba(74,222,128,0.12);border:2px solid rgba(74,222,128,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;}
+.progress-bar{height:4px;background:var(--grey);border-radius:2px;margin:24px 0;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--yellow2));border-radius:2px;transition:width .4s;}
+.step-indicator{display:flex;gap:8px;justify-content:center;margin-bottom:24px;}
+.step-dot{width:8px;height:8px;border-radius:50%;background:var(--grey);transition:.3s;}
+.step-dot.active{background:var(--yellow);width:24px;border-radius:4px;}
+
+/* ===== AUTH PAGE ===== */
+.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse 50% 80% at 0% 50%,rgba(255,215,0,0.04),transparent);}
+.auth-card{width:100%;max-width:420px;background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:36px;}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--silver);font-size:12px;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.google-btn{width:100%;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--white);transition:.2s;}
+.google-btn:hover{border-color:rgba(255,255,255,0.2);background:var(--grey);}
+
+/* ===== DASHBOARD ===== */
+.dash-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.dash-stat{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;align-items:center;gap:16px;}
+.dash-stat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.dash-stat-icon.yellow{background:rgba(255,215,0,0.12);border:1px solid var(--border-y);}
+.dash-stat-icon.green{background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.2);}
+.dash-stat-icon.blue{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2);}
+.dash-stat-icon.purple{background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2);}
+.dash-stat-num{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1;}
+.dash-stat-label{color:var(--silver);font-size:12px;}
+
+/* Activity feed */
+.activity-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.activity-item:last-child{border-bottom:none;}
+.activity-dot{width:8px;height:8px;background:var(--yellow);border-radius:50%;margin-top:6px;flex-shrink:0;}
+
+/* Profile */
+.profile-cover{height:160px;background:linear-gradient(135deg,#1a1a00,#2E2E2E,#1F1F1F);border-radius:var(--radius) var(--radius) 0 0;position:relative;}
+.profile-cover-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,0.08),transparent);border-radius:inherit;}
+.profile-info{padding:0 24px 24px;margin-top:-40px;position:relative;}
+.profile-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
+.profile-stat{text-align:center;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;}
+.profile-stat .n{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--yellow);}
+.profile-stat .l{font-size:11px;color:var(--silver);}
+
+/* ===== CHAT ===== */
+.chat-layout{display:grid;grid-template-columns:280px 1fr;gap:0;height:calc(100vh - 64px - 64px);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.chat-sidebar{background:var(--dark);border-right:1px solid var(--border);overflow-y:auto;}
+.chat-sidebar-header{padding:16px;border-bottom:1px solid var(--border);}
+.chat-room-item{padding:12px 16px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.chat-room-item:hover,.chat-room-item.active{background:var(--glass2);}
+.chat-room-item.active .chat-room-name{color:var(--yellow);}
+.chat-room-dot{width:8px;height:8px;background:var(--grey);border-radius:50%;flex-shrink:0;}
+.chat-room-dot.online{background:#4ade80;}
+.chat-main{display:flex;flex-direction:column;}
+.chat-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--dark);}
+.chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;}
+.msg{display:flex;gap:10px;max-width:75%;}
+.msg.mine{flex-direction:row-reverse;margin-left:auto;}
+.msg-bubble{background:var(--grey);border-radius:12px 12px 12px 2px;padding:10px 14px;font-size:13px;line-height:1.6;}
+.msg.mine .msg-bubble{background:var(--glass2);border:1px solid var(--border-y);border-radius:12px 12px 2px 12px;}
+.msg-time{font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px;}
+.chat-input-area{padding:16px;border-top:1px solid var(--border);background:var(--dark);}
+.chat-input-row{display:flex;gap:10px;align-items:center;}
+.chat-input{flex:1;background:var(--grey);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:.2s;}
+.chat-input:focus{border-color:var(--yellow);}
+
+/* ===== POLLS ===== */
+.poll-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;}
+.poll-option{margin:10px 0;cursor:pointer;}
+.poll-option-label{display:flex;justify-content:space-between;margin-bottom:5px;font-size:13px;}
+.poll-bar-bg{height:8px;background:var(--grey);border-radius:4px;overflow:hidden;}
+.poll-bar-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--yellow2));border-radius:4px;transition:width .5s ease;}
+.poll-option:hover .poll-bar-fill{filter:brightness(1.1);}
+
+/* ===== EVENTS ===== */
+.event-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;transition:.3s;}
+.event-card:hover{border-color:var(--border-y);box-shadow:var(--shadow-y);}
+.event-cal{width:56px;height:60px;background:var(--glass2);border:1px solid var(--border-y);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.event-cal .d{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--yellow);line-height:1;}
+.event-cal .m{font-size:10px;color:var(--silver);text-transform:uppercase;letter-spacing:1px;}
+
+/* ===== ADMIN ===== */
+.admin-stat{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.admin-stat .n{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--yellow);}
+.admin-stat .l{color:var(--silver);font-size:12px;text-transform:uppercase;letter-spacing:1px;}
+.table-container{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;padding:12px 16px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--silver);border-bottom:1px solid var(--border);background:rgba(255,255,255,0.02);}
+td{padding:14px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+tr:hover td{background:var(--glass);}
+.request-row td:first-child{font-weight:600;}
+
+/* Leaderboard */
+.lb-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);}
+.lb-rank{font-family:'Bebas Neue',sans-serif;font-size:20px;width:28px;text-align:center;}
+.lb-rank.gold{color:#FFD700;}.lb-rank.silver{color:#C0C0C0;}.lb-rank.bronze{color:#CD7F32;}
+.lb-bar{flex:1;height:6px;background:var(--grey);border-radius:3px;overflow:hidden;}
+.lb-bar-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--yellow2));border-radius:3px;}
+
+/* Settings */
+.settings-section{margin-bottom:32px;}
+.settings-section h3{font-size:14px;font-weight:600;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.toggle{width:40px;height:22px;background:var(--grey);border-radius:11px;position:relative;cursor:pointer;transition:.2s;}
+.toggle.on{background:var(--yellow);}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;background:#000;border-radius:50%;transition:.2s;}
+.toggle.on::after{left:21px;}
+
+/* Announcements */
+.ann-item{background:var(--glass);border-left:3px solid var(--yellow);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:16px 20px;margin-bottom:12px;transition:.2s;}
+.ann-item:hover{background:var(--glass2);}
+.ann-item.pinned{border-left-color:#4ade80;}
+
+/* WhatsApp */
+.wa-card{background:linear-gradient(135deg,rgba(37,211,102,0.08),rgba(37,211,102,0.03));border:1px solid rgba(37,211,102,0.2);border-radius:var(--radius);padding:28px;text-align:center;}
+.wa-icon{font-size:48px;margin-bottom:16px;}
+.wa-btn{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;padding:12px 28px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px;}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,0.25);}
+
+/* Notification bell */
+.notif-count{background:var(--yellow);color:#000;font-size:10px;font-weight:700;padding:1px 5px;border-radius:8px;position:absolute;top:-4px;right:-4px;}
+.notif-item{display:flex;gap:12px;padding:14px;border-bottom:1px solid var(--border);cursor:pointer;transition:.2s;}
+.notif-item:hover{background:var(--glass);}
+.notif-item.unread{background:rgba(255,215,0,0.03);border-left:2px solid var(--yellow);}
+
+/* File sharing */
+.file-item{display:flex;align-items:center;gap:14px;padding:14px;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:10px;transition:.2s;}
+.file-item:hover{border-color:var(--border-y);}
+.file-icon{width:40px;height:40px;background:var(--glass2);border:1px solid var(--border-y);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+
+/* Points / XP */
+.xp-bar-container{background:var(--grey);border-radius:4px;height:8px;overflow:hidden;}
+.xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--yellow),var(--yellow2));border-radius:4px;}
+
+/* Mentorship */
+.mentor-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:16px;align-items:flex-start;transition:.3s;}
+.mentor-card:hover{border-color:var(--border-y);}
+
+/* Resources */
+.resource-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:.3s;cursor:pointer;}
+.resource-card:hover{border-color:var(--border-y);transform:translateY(-2px);}
+
+/* Hamburger */
+.hamburger{display:flex;flex-direction:column;gap:4px;cursor:pointer;padding:6px;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:.3s;}
+
+/* Responsive */
+@media(max-width:768px){
+  #navbar{padding:0 16px;}
+  .nav-links{display:none;}
+  .section{padding:60px 20px;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .leader-card{grid-template-columns:1fr;}
+  .leader-photo{min-height:200px;}
+  .hero-stats{gap:20px;}
+  .stat-num{font-size:32px;}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}
+  .explore-stats{grid-template-columns:1fr 1fr;}
+  .chat-layout{grid-template-columns:1fr;}
+  .chat-sidebar{display:none;}
+  .dashboard-content{padding:16px;}
+  .dashboard-sidebar-space{display:none;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+
+/* Animations */
+.float{animation:float 4s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.shimmer{background:linear-gradient(90deg,var(--glass) 25%,rgba(255,255,255,0.06) 50%,var(--glass) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.spin{animation:spin 1s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;background:var(--dark);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:24px;width:fit-content;}
+.tab{padding:7px 16px;border-radius:7px;cursor:pointer;font-size:13px;font-weight:500;color:var(--silver);transition:.2s;border:none;background:none;}
+.tab.active{background:var(--glass2);color:var(--yellow);border:1px solid var(--border-y);}
+
+/* Search */
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--dark);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0 14px;transition:.2s;}
+.search-bar:focus-within{border-color:var(--yellow);}
+.search-bar input{background:none;border:none;outline:none;color:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 0;width:100%;}
+.search-bar input::placeholder{color:rgba(255,255,255,0.25);}
+
+/* Skeleton loader */
+.skeleton{background:var(--glass);border-radius:6px;animation:shimmer 1.5s infinite;}
+
+/* Online indicator */
+.online-dot{width:10px;height:10px;background:#4ade80;border-radius:50%;border:2px solid var(--dark);position:absolute;bottom:0;right:0;}
+
+/* Countdown timer */
+.countdown{display:flex;gap:16px;justify-content:center;}
+.countdown-item{text-align:center;background:var(--glass);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;min-width:64px;}
+.countdown-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--yellow);line-height:1;}
+.countdown-label{font-size:10px;color:var(--silver);text-transform:uppercase;letter-spacing:1px;}
+
+/* Theme switcher */
+.theme-pill{display:flex;background:var(--dark);border:1px solid var(--border);border-radius:20px;padding:3px;}
+.theme-opt{padding:5px 12px;border-radius:16px;font-size:12px;cursor:pointer;transition:.2s;color:var(--silver);}
+.theme-opt.active{background:var(--glass2);color:var(--yellow);}
+</style>
+</head>
+<body>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="logo-icon">SH</div>
+    <span class="logo-text">SH <span class="text-yellow">Community</span></span>
+  </div>
+  <div class="nav-links" id="nav-links">
+    <button class="nav-link active" onclick="showPage('home');setActiveNav(this)">Home</button>
+    <button class="nav-link" onclick="showPage('explore');setActiveNav(this)">Explore</button>
+    <button class="nav-link" onclick="showPage('join');setActiveNav(this)">Join</button>
+    <button class="nav-link" id="nav-dashboard-link" style="display:none" onclick="showPage('dashboard');setActiveNav(this)">Dashboard</button>
+    <button class="nav-link" id="nav-admin-link" style="display:none" onclick="showPage('admin');setActiveNav(this)">Admin</button>
+  </div>
+  <div class="nav-actions">
+    <div id="nav-logged-out" class="flex gap-2">
+      <button class="btn btn-ghost btn-sm" onclick="showPage('login')">Login</button>
+      <button class="btn btn-primary btn-sm" onclick="showPage('join')">Join Now</button>
+    </div>
+    <div id="nav-logged-in" class="hidden flex gap-2 items-center">
+      <div style="position:relative;cursor:pointer" onclick="showPage('notifications')">
+        <span style="font-size:18px">🔔</span>
+        <span class="notif-count" id="notif-badge">3</span>
+      </div>
+      <div class="flex items-center gap-2" style="cursor:pointer" onclick="showPage('profile')">
+        <div class="avatar-placeholder avatar-sm" id="nav-avatar" style="font-size:13px">S</div>
+        <span style="font-size:13px;font-weight:600" id="nav-username">Member</span>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">Logout</button>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== SIDEBAR ===== -->
+<div id="sidebar">
+  <div id="sidebar-user-info" class="p-3" style="display:none;border-bottom:1px solid var(--border)">
+    <div class="flex items-center gap-2">
+      <div class="avatar-placeholder avatar-md" id="sidebar-avatar" style="font-size:18px;position:relative">S
+        <span class="online-dot"></span>
+      </div>
+      <div>
+        <div style="font-weight:600;font-size:14px" id="sidebar-name">Member</div>
+        <div class="badge badge-yellow" style="margin-top:2px" id="sidebar-role-badge">Member</div>
+      </div>
+    </div>
+    <div class="mt-2">
+      <div class="flex justify-between text-xs text-silver mb-1">
+        <span>XP Points</span><span id="sidebar-xp">250 / 500</span>
+      </div>
+      <div class="xp-bar-container"><div class="xp-bar-fill" style="width:50%"></div></div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Navigation</div>
+    <div class="sidebar-item" onclick="showPage('home');closeSidebar()"><span class="icon">🏠</span> Home</div>
+    <div class="sidebar-item" onclick="showPage('explore');closeSidebar()"><span class="icon">🔭</span> Explore</div>
+    <div class="sidebar-item" onclick="showPage('join');closeSidebar()"><span class="icon">✉️</span> Join Request</div>
+  </div>
+
+  <div class="sidebar-section" id="member-sidebar-links" style="display:none">
+    <div class="sidebar-section-title">Member Zone</div>
+    <div class="sidebar-item" onclick="showDashTab('overview');showPage('dashboard');closeSidebar()"><span class="icon">📊</span> Dashboard</div>
+    <div class="sidebar-item" onclick="showDashTab('profile');showPage('dashboard');closeSidebar()"><span class="icon">👤</span> My Profile</div>
+    <div class="sidebar-item" onclick="showDashTab('chat');showPage('dashboard');closeSidebar()"><span class="icon">💬</span> Community Chat <span class="sidebar-badge" id="chat-badge">5</span></div>
+    <div class="sidebar-item" onclick="showDashTab('events');showPage('dashboard');closeSidebar()"><span class="icon">📅</span> Events</div>
+    <div class="sidebar-item" onclick="showDashTab('polls');showPage('dashboard');closeSidebar()"><span class="icon">📊</span> Polls</div>
+    <div class="sidebar-item" onclick="showDashTab('announcements');showPage('dashboard');closeSidebar()"><span class="icon">📢</span> Announcements</div>
+    <div class="sidebar-item" onclick="showDashTab('files');showPage('dashboard');closeSidebar()"><span class="icon">📁</span> Files</div>
+    <div class="sidebar-item" onclick="showDashTab('gallery');showPage('dashboard');closeSidebar()"><span class="icon">🖼️</span> Gallery</div>
+    <div class="sidebar-item" onclick="showDashTab('leaderboard');showPage('dashboard');closeSidebar()"><span class="icon">🏆</span> Leaderboard</div>
+    <div class="sidebar-item" onclick="showDashTab('mentorship');showPage('dashboard');closeSidebar()"><span class="icon">🎓</span> Mentorship</div>
+    <div class="sidebar-item" onclick="showDashTab('resources');showPage('dashboard');closeSidebar()"><span class="icon">📚</span> Resources</div>
+    <div class="sidebar-item" onclick="showDashTab('whatsapp');showPage('dashboard');closeSidebar()"><span class="icon">💚</span> WhatsApp</div>
+    <div class="sidebar-item" onclick="showDashTab('settings');showPage('dashboard');closeSidebar()"><span class="icon">⚙️</span> Settings</div>
+  </div>
+
+  <div class="sidebar-section" id="admin-sidebar-links" style="display:none">
+    <div class="sidebar-section-title">Admin Panel</div>
+    <div class="sidebar-item" onclick="showAdminTab('overview');showPage('admin');closeSidebar()"><span class="icon">🎛️</span> Overview</div>
+    <div class="sidebar-item" onclick="showAdminTab('requests');showPage('admin');closeSidebar()"><span class="icon">📩</span> Join Requests <span class="sidebar-badge">2</span></div>
+    <div class="sidebar-item" onclick="showAdminTab('members');showPage('admin');closeSidebar()"><span class="icon">👥</span> Members</div>
+    <div class="sidebar-item" onclick="showAdminTab('content');showPage('admin');closeSidebar()"><span class="icon">✏️</span> Content</div>
+    <div class="sidebar-item" onclick="showAdminTab('analytics');showPage('admin');closeSidebar()"><span class="icon">📈</span> Analytics</div>
+    <div class="sidebar-item" onclick="showAdminTab('settings');showPage('admin');closeSidebar()"><span class="icon">🔧</span> Site Settings</div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+
+<!-- ==================== HOME PAGE ==================== -->
+<div class="page active" id="page-home">
+  <!-- Hero -->
+  <div id="home-page">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">⚡ Private · Elite · Exclusive</div>
+      <h1>SH<br/><span>Community</span></h1>
+      <p class="hero-sub">A premium private network of 100 elite members. Network, grow, and build something extraordinary together.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="showPage('join')">🚀 Request to Join</button>
+        <button class="btn btn-ghost btn-lg" onclick="showPage('explore')">🔭 Explore Community</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">100</div><div class="stat-label">Max Members</div></div>
+        <div class="stat-item"><div class="stat-num">47</div><div class="stat-label">Active Members</div></div>
+        <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Monthly Events</div></div>
+        <div class="stat-item"><div class="stat-num">98%</div><div class="stat-label">Satisfaction</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="section">
+    <div class="section-tag">Why Join Us</div>
+    <h2>Everything You Need to <span class="text-yellow">Grow</span></h2>
+    <p class="lead">SH Community provides a premium ecosystem for professionals to connect, learn, and excel together.</p>
+    <div class="grid-3">
+      <div class="feature-card"><div class="feature-icon">💬</div><h3>Real-Time Chat</h3><p>Instant messaging with group and private chat, image sharing, and admin moderation.</p></div>
+      <div class="feature-card"><div class="feature-icon">📅</div><h3>Event Calendar</h3><p>Stay updated with community events, meetings, and important reminders.</p></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><h3>Polls & Voting</h3><p>Participate in community decisions with real-time voting and instant results.</p></div>
+      <div class="feature-card"><div class="feature-icon">🏆</div><h3>Leaderboard</h3><p>Earn XP points for participation and climb the community leaderboard.</p></div>
+      <div class="feature-card"><div class="feature-icon">🎓</div><h3>Mentorship</h3><p>Connect with expert mentors and accelerate your personal and professional growth.</p></div>
+      <div class="feature-card"><div class="feature-icon">📚</div><h3>Resource Library</h3><p>Access curated books, courses, templates, and tools shared by the community.</p></div>
+      <div class="feature-card"><div class="feature-icon">📁</div><h3>File Sharing</h3><p>Share and download documents, presentations, and resources securely.</p></div>
+      <div class="feature-card"><div class="feature-icon">🔔</div><h3>Smart Notifications</h3><p>Never miss an event, announcement, or message with smart alerts.</p></div>
+      <div class="feature-card"><div class="feature-icon">💚</div><h3>WhatsApp Integration</h3><p>Seamlessly connect to the community WhatsApp group directly from your dashboard.</p></div>
+    </div>
+  </div>
+
+  <!-- Leader -->
+  <div class="leader-section">
+    <div style="text-align:center;margin-bottom:40px">
+      <div class="section-tag" style="text-align:center">Community Leader</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,60px)">Meet the <span class="text-yellow">Founder</span></h2>
+    </div>
+    <div class="leader-card">
+      <div class="leader-photo">
+        <div>
+          <div class="leader-avatar-big float">SS</div>
+          <div style="text-align:center;margin-top:14px">
+            <div class="badge badge-yellow">👑 Founder & Admin</div>
+          </div>
+        </div>
+      </div>
+      <div class="leader-info">
+        <div class="role">Community Founder & Leader</div>
+        <h2>Suraj Shinde</h2>
+        <div class="flex gap-2 flex-wrap mt-2">
+          <span class="badge badge-green">✓ Verified</span>
+          <span class="badge badge-blue">💎 Premium</span>
+          <span class="badge badge-yellow">⚡ Active</span>
+        </div>
+        <p class="desc">Suraj Shinde founded SH Community with a vision to create India's most exclusive private network for high-achievers, entrepreneurs, and professionals who are serious about growth. With years of experience in building communities and fostering genuine connections, Suraj personally curates every member to maintain quality.</p>
+        <div class="leader-tag-list">
+          <span class="badge badge-silver">🚀 Entrepreneur</span>
+          <span class="badge badge-silver">📱 Tech</span>
+          <span class="badge badge-silver">🎯 Leadership</span>
+          <span class="badge badge-silver">🌐 Networking</span>
+          <span class="badge badge-silver">💡 Innovation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming Event Countdown -->
+  <div class="section">
+    <div class="section-tag">Next Event</div>
+    <h2>Upcoming <span class="text-yellow">Community Meet</span></h2>
+    <div class="card card-yellow mt-3" style="text-align:center;padding:40px">
+      <div class="badge badge-yellow mb-2">📅 April 15, 2026</div>
+      <h3 style="font-size:22px;margin:12px 0">SH Community Quarterly Summit 2026</h3>
+      <p style="color:var(--silver);margin-bottom:28px">Join 100 elite members for an exclusive networking event, keynotes, and workshops.</p>
+      <div class="countdown" id="countdown-display">
+        <div class="countdown-item"><div class="countdown-num" id="cd-days">18</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-hours">6</div><div class="countdown-label">Hours</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-mins">43</div><div class="countdown-label">Mins</div></div>
+        <div class="countdown-item"><div class="countdown-num" id="cd-secs">20</div><div class="countdown-label">Secs</div></div>
+      </div>
+      <button class="btn btn-primary mt-3" onclick="showPage('join')">Register Interest</button>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="section">
+    <div class="section-tag">Member Stories</div>
+    <h2>What Our <span class="text-yellow">Members</span> Say</h2>
+    <div class="grid-3 mt-3">
+      <div class="testimonial-card"><p class="testimonial-text">"SH Community changed my professional life. The connections I made here led to 3 business deals in 6 months."</p><div class="testimonial-author"><div class="avatar-placeholder avatar-sm" style="font-size:12px">RK</div><div><div style="font-weight:600;font-size:13px">Rahul Kumar</div><div class="text-xs text-silver">Entrepreneur, Mumbai</div></div></div></div>
+      <div class="testimonial-card"><p class="testimonial-text">"The mentorship program here is unmatched. My mentor helped me scale my startup from 0 to ₹50L ARR."</p><div class="testimonial-author"><div class="avatar-placeholder avatar-sm" style="font-size:12px">PS</div><div><div style="font-weight:600;font-size:13px">Priya Sharma</div><div class="text-xs text-silver">Tech Founder, Pune</div></div></div></div>
+      <div class="testimonial-card"><p class="testimonial-text">"Best private community I've ever been part of. The quality of members and events is absolutely top-tier."</p><div class="testimonial-author"><div class="avatar-placeholder avatar-sm" style="font-size:12px">AV</div><div><div style="font-weight:600;font-size:13px">Arjun Verma</div><div class="text-xs text-silver">Investor, Bangalore</div></div></div></div>
+    </div>
+  </div>
+
+  <!-- Rules -->
+  <div class="section">
+    <div class="section-tag">Guidelines</div>
+    <h2>Community <span class="text-yellow">Rules</span></h2>
+    <p class="lead">Our standards ensure SH Community remains a premium, safe, and valuable space for all members.</p>
+    <ul class="rules-list">
+      <li class="rule-item"><div class="rule-num">01</div><div><strong>Respect & Professionalism</strong> — Treat every member with respect. Zero tolerance for harassment or discrimination.</div></li>
+      <li class="rule-item"><div class="rule-num">02</div><div><strong>No Spam</strong> — Self-promotion must be approved. Unsolicited DMs are strictly forbidden.</div></li>
+      <li class="rule-item"><div class="rule-num">03</div><div><strong>Confidentiality</strong> — What happens in SH Community stays here. Do not share private discussions externally.</div></li>
+      <li class="rule-item"><div class="rule-num">04</div><div><strong>Active Participation</strong> — Members who are inactive for 60+ days may be removed to maintain community quality.</div></li>
+      <li class="rule-item"><div class="rule-num">05</div><div><strong>Quality Over Quantity</strong> — Share valuable, meaningful content. No low-effort posts or irrelevant links.</div></li>
+    </ul>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="section-tag">Limited Spots</div>
+    <h2>Only <span class="text-yellow">53 Spots</span> Left</h2>
+    <p>This is your chance to join an exclusive circle of India's most ambitious professionals. Apply before it's too late.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="showPage('join')">Apply for Membership</button>
+      <button class="btn btn-ghost btn-lg" onclick="showPage('login')">Already a Member?</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo"><div class="logo-icon">SH</div><span class="logo-text">SH <span class="text-yellow">Community</span></span></div>
+        <p>A premium private network of 100 elite members led by Suraj Shinde. Where ambition meets opportunity.</p>
+        <div class="flex gap-2 mt-2">
+          <span style="font-size:20px;cursor:pointer">💼</span>
+          <span style="font-size:20px;cursor:pointer">🐦</span>
+          <span style="font-size:20px;cursor:pointer">📸</span>
+          <span style="font-size:20px;cursor:pointer">💚</span>
+        </div>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a class="footer-link" onclick="showPage('home')">Home</a>
+        <a class="footer-link" onclick="showPage('explore')">Explore</a>
+        <a class="footer-link" onclick="showPage('join')">Join Community</a>
+        <a class="footer-link" onclick="showPage('login')">Member Login</a>
+      </div>
+      <div>
+        <h4>Community</h4>
+        <a class="footer-link">Events</a>
+        <a class="footer-link">Mentorship</a>
+        <a class="footer-link">Resources</a>
+        <a class="footer-link">WhatsApp Group</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a class="footer-link">admin@shcommunity.com</a>
+        <a class="footer-link">+91 XXXXX XXXXX</a>
+        <a class="footer-link">Mumbai, India</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SH Community. All rights reserved.</span>
+      <span>Built with ❤️ by Suraj Shinde</span>
+    </div>
+  </footer>
+  </div>
+</div>
+
+<!-- ==================== EXPLORE PAGE ==================== -->
+<div class="page" id="page-explore">
+  <div style="padding-top:64px">
+    <div class="explore-hero">
+      <div style="max-width:1200px;margin:0 auto">
+        <div class="badge badge-yellow mb-2">🔭 Community Overview</div>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:52px">Explore <span class="text-yellow">SH Community</span></h2>
+        <p style="color:var(--silver);margin-top:8px;max-width:500px">Discover what makes SH Community the most exclusive private network for India's top professionals.</p>
+      </div>
+    </div>
+    <div class="explore-content">
+      <!-- Stats -->
+      <div class="explore-stats">
+        <div class="exp-stat"><div class="num">47</div><div class="lbl">Active Members</div></div>
+        <div class="exp-stat"><div class="num">12</div><div class="lbl">Monthly Events</div></div>
+        <div class="exp-stat"><div class="num">280+</div><div class="lbl">Messages/Day</div></div>
+        <div class="exp-stat"><div class="num">53</div><div class="lbl">Spots Left</div></div>
+      </div>
+
+      <div class="grid-2" style="gap:32px">
+        <!-- Members preview -->
+        <div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:20px">Community <span class="text-yellow">Members</span></h3>
+          <div class="member-grid">
+            <div class="member-card"><div class="avatar-placeholder avatar-md" style="font-size:16px;margin:0 auto 10px">SS</div><div style="font-size:13px;font-weight:600">Suraj Shinde</div><div class="badge badge-yellow mt-1">👑 Leader</div></div>
+            <div class="member-card"><div class="avatar-placeholder avatar-md" style="font-size:16px;margin:0 auto 10px;background:linear-gradient(135deg,#60a5fa,#3b82f6)">RK</div><div style="font-size:13px;font-weight:600">Rahul K.</div><div class="badge badge-green mt-1">Active</div></div>
+            <div class="member-card"><div class="avatar-placeholder avatar-md" style="font-size:16px;margin:0 auto 10px;background:linear-gradient(135deg,#f472b6,#ec4899)">PS</div><div style="font-size:13px;font-weight:600">Priya S.</div><div class="badge badge-green mt-1">Active</div></div>
+            <div class="member-card"><div class="avatar-placeholder avatar-md" style="font-size:16px;margin:0 auto 10px;background:linear-gradient(135deg,#34d399,#10b981)">AV</div><div style="font-size:13px;font-weight:600">Arjun V.</div><div class="badge badge-green mt-1">Active</div></div>
+            <div class="member-card" style="opacity:.5"><div style="font-size:28px;margin-bottom:8px">🔒</div><div style="font-size:12px;color:var(--silver)">+43 more</div><div class="text-xs text-silver">Members only</div></div>
+          </div>
+        </div>
+
+        <!-- Events -->
+        <div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:20px">Upcoming <span class="text-yellow">Events</span></h3>
+          <div class="event-item"><div class="event-date"><div class="event-day">15</div><div class="event-month">Apr</div></div><div><div style="font-weight:600;font-size:14px">Quarterly Summit 2026</div><div class="text-sm text-silver">Virtual · 3 hours</div><div class="badge badge-yellow mt-1">🔥 Featured</div></div></div>
+          <div class="event-item"><div class="event-date"><div class="event-day">22</div><div class="event-month">Apr</div></div><div><div style="font-weight:600;font-size:14px">Startup Pitch Night</div><div class="text-sm text-silver">Mumbai · 2 hours</div><div class="badge badge-blue mt-1">📍 In-Person</div></div></div>
+          <div class="event-item"><div class="event-date"><div class="event-day">05</div><div class="event-month">May</div></div><div><div style="font-weight:600;font-size:14px">Leadership Masterclass</div><div class="text-sm text-silver">Online · 90 mins</div><div class="badge badge-green mt-1">🎓 Workshop</div></div></div>
+        </div>
+      </div>
+
+      <div class="divider-y"></div>
+
+      <!-- Announcements Preview -->
+      <div class="mt-3 mb-4">
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:20px">Latest <span class="text-yellow">Announcements</span></h3>
+        <div class="ann-item pinned"><div class="flex items-center gap-2 mb-1"><span class="badge badge-green">📌 Pinned</span><span class="text-xs text-silver">March 25, 2026</span></div><div style="font-weight:600">Quarterly Summit Registration Now Open</div><div class="text-sm text-silver mt-1">Register your interest for our biggest event of the year. Limited seats available.</div></div>
+        <div class="ann-item"><div class="flex items-center gap-2 mb-1"><span class="badge badge-yellow">📢 New</span><span class="text-xs text-silver">March 20, 2026</span></div><div style="font-weight:600">New Resource Library Launched</div><div class="text-sm text-silver mt-1">Over 50 premium resources now available in the member dashboard.</div></div>
+        <div class="ann-item" style="opacity:.5;cursor:pointer" onclick="showPage('login')"><div style="text-align:center;padding:8px">🔒 Login to view all announcements</div></div>
+      </div>
+
+      <!-- Gallery Preview -->
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:20px">Community <span class="text-yellow">Gallery</span></h3>
+      <div class="gallery-grid">
+        <div class="gallery-item">🎉</div>
+        <div class="gallery-item">🤝</div>
+        <div class="gallery-item">🎤</div>
+        <div class="gallery-item">🏆</div>
+        <div class="gallery-item">💼</div>
+        <div class="gallery-item" style="opacity:.4;cursor:pointer" onclick="showPage('login')">🔒</div>
+      </div>
+
+      <div class="card card-yellow mt-4 text-center">
+        <h3 style="font-size:20px;margin-bottom:8px">Ready to Join the Elite?</h3>
+        <p class="text-silver text-sm mb-3">Apply now and get a response within 48 hours from our admin team.</p>
+        <button class="btn btn-primary" onclick="showPage('join')">Apply for Membership</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== JOIN PAGE ==================== -->
+<div class="page" id="page-join">
+  <div class="join-page">
+    <div class="join-card">
+      <div class="join-header">
+        <div class="nav-logo"><div class="logo-icon">SH</div><span class="logo-text">SH <span class="text-yellow">Community</span></span></div>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:30px;margin-top:16px">Request <span class="text-yellow">Membership</span></h2>
+        <p class="text-silver text-sm mt-1">Fill out the form below. Your request will be reviewed by our admin within 48 hours.</p>
+        <div class="progress-bar"><div class="progress-fill" id="join-progress" style="width:33%"></div></div>
+        <div class="step-indicator">
+          <div class="step-dot active" id="step-dot-1"></div>
+          <div class="step-dot" id="step-dot-2"></div>
+          <div class="step-dot" id="step-dot-3"></div>
+        </div>
+      </div>
+
+      <div class="join-body" id="join-step-1">
+        <h3 style="font-size:16px;margin-bottom:20px">Step 1: Personal Info</h3>
+        <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="join-name" placeholder="Enter your full name"/></div>
+        <div class="form-group"><label class="form-label">Email Address *</label><input class="form-input" type="email" id="join-email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label class="form-label">Phone Number *</label><input class="form-input" type="tel" id="join-phone" placeholder="+91 XXXXX XXXXX"/></div>
+        <button class="btn btn-primary w-full" onclick="joinStep(2)">Continue →</button>
+      </div>
+
+      <div class="join-body hidden" id="join-step-2">
+        <h3 style="font-size:16px;margin-bottom:20px">Step 2: Background</h3>
+        <div class="form-group"><label class="form-label">City *</label><input class="form-input" id="join-city" placeholder="Mumbai, Pune, Delhi..."/></div>
+        <div class="form-group"><label class="form-label">Profession</label><select class="form-input form-select" id="join-profession"><option value="">Select your profession</option><option>Entrepreneur</option><option>Engineer / Developer</option><option>Designer</option><option>Marketing / Sales</option><option>Finance / Investment</option><option>Consultant</option><option>Student</option><option>Other</option></select></div>
+        <div class="form-group"><label class="form-label">LinkedIn Profile</label><input class="form-input" id="join-linkedin" placeholder="linkedin.com/in/yourprofile"/></div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost" onclick="joinStep(1)">← Back</button>
+          <button class="btn btn-primary" style="flex:1" onclick="joinStep(3)">Continue →</button>
+        </div>
+      </div>
+
+      <div class="join-body hidden" id="join-step-3">
+        <h3 style="font-size:16px;margin-bottom:20px">Step 3: Your Motivation</h3>
+        <div class="form-group"><label class="form-label">Why do you want to join SH Community? *</label><textarea class="form-input form-textarea" id="join-reason" placeholder="Tell us about yourself, your goals, and why you'd be a great addition to SH Community..."></textarea></div>
+        <div class="form-group"><label class="form-label">How did you hear about us?</label><select class="form-input form-select"><option>Friend / Referral</option><option>Social Media</option><option>Google Search</option><option>WhatsApp</option><option>Other</option></select></div>
+        <div class="form-group">
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer">
+            <input type="checkbox" id="join-agree" style="margin-top:3px"/>
+            <span class="text-sm text-silver">I agree to follow the community rules and guidelines and understand this is an application, not a guarantee of membership.</span>
+          </label>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-ghost" onclick="joinStep(2)">← Back</button>
+          <button class="btn btn-primary" style="flex:1" onclick="submitJoinRequest()">🚀 Submit Application</button>
+        </div>
+      </div>
+
+      <div class="join-success hidden" id="join-success">
+        <div class="check">✅</div>
+        <h3 style="font-size:22px;margin-bottom:8px">Application Submitted!</h3>
+        <p class="text-silver text-sm mb-3">Thank you for applying to SH Community. Our admin will review your application and respond within <strong class="text-yellow">48 hours</strong>.</p>
+        <div class="card card-yellow" style="padding:16px;text-align:left;margin:20px 0">
+          <div class="text-sm"><div class="mb-1"><strong>📧 Check your email</strong> for confirmation</div><div class="mb-1"><strong>⏰ Response time:</strong> 24–48 hours</div><div><strong>📩 Contact:</strong> admin@shcommunity.com</div></div>
+        </div>
+        <button class="btn btn-ghost w-full" onclick="showPage('home')">← Back to Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== LOGIN PAGE ==================== -->
+<div class="page" id="page-login">
+  <div class="auth-page">
+    <div class="auth-card">
+      <div style="text-align:center;margin-bottom:28px">
+        <div class="logo-icon" style="margin:0 auto 12px;width:52px;height:52px;font-size:24px">SH</div>
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:32px">Welcome <span class="text-yellow">Back</span></h2>
+        <p class="text-silver text-sm">Sign in to your SH Community account</p>
+      </div>
+
+      <button class="google-btn" onclick="googleLogin()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.5 9.2c0-.6-.1-1.1-.2-1.6H9v3h4.2c-.2 1-.8 1.8-1.6 2.4v2h2.6c1.5-1.4 2.3-3.4 2.3-5.8z"/><path fill="#34A853" d="M9 17c2.2 0 4-.7 5.3-2l-2.6-2c-.7.5-1.6.8-2.7.8-2 0-3.8-1.4-4.4-3.3H2v2c1.3 2.6 4 4.5 7 4.5z"/><path fill="#FBBC05" d="M4.6 10.5c-.2-.5-.3-1-.3-1.5s.1-1 .3-1.5V5.5H2C1.4 6.6 1 7.8 1 9s.4 2.4 1 3.5l2.6-2z"/><path fill="#EA4335" d="M9 4.5c1.1 0 2.1.4 2.9 1.1l2.1-2.1C12.7 2.2 11 1.5 9 1.5 6 1.5 3.3 3.4 2 6l2.6 2c.6-1.9 2.4-3.5 4.4-3.5z"/></svg>
+        Continue with Google
+      </button>
+
+      <div class="auth-divider">or sign in with email</div>
+
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" id="login-email" placeholder="your@email.com"/></div>
+      <div class="form-group">
+        <div class="flex justify-between"><label class="form-label">Password</label><span class="text-xs text-yellow" style="cursor:pointer;font-weight:600" onclick="showForgotPassword()">Forgot Password?</span></div>
+        <input class="form-input" type="password" id="login-password" placeholder="Enter password"/>
+      </div>
+
+      <div class="form-error hidden" id="login-error">Invalid email or password.</div>
+
+      <button class="btn btn-primary w-full mt-2" onclick="login()" style="justify-content:center">Sign In →</button>
+
+      <div class="text-center text-sm text-silver mt-3">
+        Don't have an account? <span class="text-yellow fw-600" style="cursor:pointer" onclick="showPage('join')">Apply to Join</span>
+      </div>
+
+      <div class="divider"></div>
+      <div class="card card-yellow" style="padding:14px">
+        <div class="text-sm fw-600 mb-1 text-yellow">🔑 Demo Credentials</div>
+        <div class="text-sm text-silver"><div>Admin: admin@shcommunity.com / admin123</div><div class="mt-1">Member: member@shcommunity.com / member123</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DASHBOARD PAGE ==================== -->
+<div class="page" id="page-dashboard">
+  <div class="dashboard-layout">
+    <div class="dashboard-sidebar-space"></div>
+    <div class="dashboard-content">
+
+      <!-- Tabs -->
+      <div class="tabs" id="dash-tabs" style="flex-wrap:wrap">
+        <button class="tab active" onclick="showDashTab('overview',this)">📊 Overview</button>
+        <button class="tab" onclick="showDashTab('profile',this)">👤 Profile</button>
+        <button class="tab" onclick="showDashTab('chat',this)">💬 Chat</button>
+        <button class="tab" onclick="showDashTab('events',this)">📅 Events</button>
+        <button class="tab" onclick="showDashTab('polls',this)">🗳️ Polls</button>
+        <button class="tab" onclick="showDashTab('announcements',this)">📢 News</button>
+        <button class="tab" onclick="showDashTab('files',this)">📁 Files</button>
+        <button class="tab" onclick="showDashTab('gallery',this)">🖼️ Gallery</button>
+        <button class="tab" onclick="showDashTab('leaderboard',this)">🏆 Ranks</button>
+        <button class="tab" onclick="showDashTab('mentorship',this)">🎓 Mentors</button>
+        <button class="tab" onclick="showDashTab('resources',this)">📚 Library</button>
+        <button class="tab" onclick="showDashTab('whatsapp',this)">💚 WhatsApp</button>
+        <button class="tab" onclick="showDashTab('settings',this)">⚙️ Settings</button>
+      </div>
+
+      <!-- Overview -->
+      <div id="dash-overview">
+        <div class="page-header"><h2>Welcome back, <span class="text-yellow" id="dash-welcome-name">Member</span> 👋</h2><p>Here's what's happening in your community today.</p></div>
+        <div class="grid-4 mb-3">
+          <div class="dash-stat"><div class="dash-stat-icon yellow">👥</div><div><div class="dash-stat-num">47</div><div class="dash-stat-label">Members</div></div></div>
+          <div class="dash-stat"><div class="dash-stat-icon green">🎉</div><div><div class="dash-stat-num">3</div><div class="dash-stat-label">Events This Month</div></div></div>
+          <div class="dash-stat"><div class="dash-stat-icon blue">💬</div><div><div class="dash-stat-num">280</div><div class="dash-stat-label">Daily Messages</div></div></div>
+          <div class="dash-stat"><div class="dash-stat-icon purple">🏆</div><div><div class="dash-stat-num" id="dash-xp">250</div><div class="dash-stat-label">Your XP Points</div></div></div>
+        </div>
+        <div class="grid-2">
+          <div class="dash-card">
+            <div class="flex justify-between items-center mb-3"><h3 style="font-size:15px;font-weight:600">Recent Activity</h3><span class="badge badge-green">Live</span></div>
+            <div class="activity-item"><div class="activity-dot"></div><div><div class="text-sm">Rahul K. posted in Community Chat</div><div class="text-xs text-silver">2 min ago</div></div></div>
+            <div class="activity-item"><div class="activity-dot"></div><div><div class="text-sm">New Event: Quarterly Summit added</div><div class="text-xs text-silver">1 hour ago</div></div></div>
+            <div class="activity-item"><div class="activity-dot"></div><div><div class="text-sm">Priya S. shared a resource</div><div class="text-xs text-silver">3 hours ago</div></div></div>
+            <div class="activity-item"><div class="activity-dot"></div><div><div class="text-sm">New poll: Best meeting time?</div><div class="text-xs text-silver">5 hours ago</div></div></div>
+            <div class="activity-item"><div class="activity-dot"></div><div><div class="text-sm">Admin posted announcement</div><div class="text-xs text-silver">Yesterday</div></div></div>
+          </div>
+          <div class="dash-card">
+            <div class="flex justify-between items-center mb-3"><h3 style="font-size:15px;font-weight:600">Next Event</h3></div>
+            <div class="card card-yellow" style="padding:16px;margin-bottom:12px">
+              <div class="badge badge-yellow mb-2">📅 Apr 15, 2026</div>
+              <div style="font-weight:600;font-size:15px">Quarterly Summit 2026</div>
+              <div class="text-sm text-silver mt-1">Virtual Meeting · 3 hours</div>
+              <button class="btn btn-primary btn-sm mt-2">RSVP Now</button>
+            </div>
+            <div class="event-item" style="margin-bottom:0"><div class="event-date"><div class="event-day">22</div><div class="event-month">Apr</div></div><div><div style="font-weight:600;font-size:13px">Startup Pitch Night</div><div class="text-xs text-silver">Mumbai</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile -->
+      <div id="dash-profile" class="hidden">
+        <div class="page-header"><h2>My <span class="text-yellow">Profile</span></h2></div>
+        <div class="card" style="padding:0;overflow:hidden;max-width:700px">
+          <div class="profile-cover"><div class="profile-cover-overlay"></div></div>
+          <div class="profile-info">
+            <div class="flex items-center gap-3">
+              <div style="position:relative">
+                <div class="avatar-placeholder avatar-xl" id="profile-avatar" style="font-size:32px;border:4px solid var(--dark)">S</div>
+                <span class="online-dot" style="width:14px;height:14px;bottom:4px;right:4px"></span>
+              </div>
+              <div>
+                <h2 style="font-family:'Bebas Neue',sans-serif;font-size:30px" id="profile-name-display">Member Name</h2>
+                <div id="profile-role-display" class="badge badge-yellow">Member</div>
+                <div class="text-sm text-silver mt-1" id="profile-city-display">📍 City</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="editProfile()">✏️ Edit</button>
+            </div>
+            <div class="profile-stat-row">
+              <div class="profile-stat"><div class="n" id="profile-xp-display">250</div><div class="l">XP Points</div></div>
+              <div class="profile-stat"><div class="n">12</div><div class="l">Events Attended</div></div>
+              <div class="profile-stat"><div class="n">47</div><div class="l">Messages Sent</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="form-group"><label class="form-label">Bio</label><input class="form-input" id="profile-bio-input" placeholder="Write something about yourself..."/></div>
+            <div class="grid-2">
+              <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="profile-name-input"/></div>
+              <div class="form-group"><label class="form-label">City</label><input class="form-input" id="profile-city-input"/></div>
+              <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="profile-phone-input"/></div>
+              <div class="form-group"><label class="form-label">Profession</label><input class="form-input" id="profile-profession-input" placeholder="Your profession"/></div>
+            </div>
+            <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat -->
+      <div id="dash-chat" class="hidden">
+        <div class="page-header"><h2>Community <span class="text-yellow">Chat</span></h2></div>
+        <div class="chat-layout">
+          <div class="chat-sidebar">
+            <div class="chat-sidebar-header">
+              <div style="font-size:12px;font-weight:700;letter-spacing:1px;color:var(--silver);text-transform:uppercase">Channels</div>
+            </div>
+            <div class="chat-room-item active" onclick="switchChat(this,'general')"><div class="chat-room-dot online"></div><div><div class="text-sm fw-600">💬 General</div><div class="text-xs text-silver">Community chat</div></div></div>
+            <div class="chat-room-item" onclick="switchChat(this,'announcements')"><div class="chat-room-dot"></div><div><div class="text-sm fw-600">📢 Announcements</div><div class="text-xs text-silver">Admin only posts</div></div></div>
+            <div class="chat-room-item" onclick="switchChat(this,'networking')"><div class="chat-room-dot online"></div><div><div class="text-sm fw-600">🤝 Networking</div><div class="text-xs text-silver">Connect & collaborate</div></div></div>
+            <div class="chat-room-item" onclick="switchChat(this,'resources')"><div class="chat-room-dot"></div><div><div class="text-sm fw-600">📚 Resources</div><div class="text-xs text-silver">Share & learn</div></div></div>
+            <div style="padding:12px 16px;font-size:11px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.3);text-transform:uppercase;margin-top:8px">Direct Messages</div>
+            <div class="chat-room-item" onclick="switchChat(this,'dm-suraj')"><div style="position:relative"><div class="avatar-placeholder" style="width:28px;height:28px;font-size:11px">SS</div><span class="online-dot" style="width:8px;height:8px;bottom:-1px;right:-1px"></span></div><div><div class="text-sm fw-600">Suraj Shinde</div><div class="text-xs text-silver">Admin · Online</div></div></div>
+          </div>
+          <div class="chat-main">
+            <div class="chat-header">
+              <div class="flex items-center gap-2"><div class="chat-room-dot online"></div><div><div style="font-weight:600;font-size:14px" id="chat-room-name">💬 General</div><div class="text-xs text-silver">12 members online</div></div></div>
+              <div class="flex gap-2"><button class="btn-icon btn">👥</button><button class="btn-icon btn">🔍</button></div>
+            </div>
+            <div class="chat-messages" id="chat-messages-container">
+              <div class="msg"><div class="avatar-placeholder avatar-sm" style="font-size:11px;flex-shrink:0">SS</div><div><div class="text-xs text-silver mb-1">Suraj Shinde · 10:30 AM</div><div class="msg-bubble">Welcome everyone! 🎉 Excited to have you all in SH Community. Let's make this amazing!</div></div></div>
+              <div class="msg"><div class="avatar-placeholder avatar-sm" style="font-size:11px;flex-shrink:0;background:linear-gradient(135deg,#60a5fa,#3b82f6)">RK</div><div><div class="text-xs text-silver mb-1">Rahul K. · 10:32 AM</div><div class="msg-bubble">Thanks Suraj! Really looking forward to connecting with everyone here 🙌</div></div></div>
+              <div class="msg"><div class="avatar-placeholder avatar-sm" style="font-size:11px;flex-shrink:0;background:linear-gradient(135deg,#f472b6,#ec4899)">PS</div><div><div class="text-xs text-silver mb-1">Priya S. · 10:45 AM</div><div class="msg-bubble">The community is already so vibrant! Can't wait for the Summit 🚀</div></div></div>
+              <div class="msg mine"><div class="avatar-placeholder avatar-sm" id="chat-my-avatar" style="font-size:11px;flex-shrink:0">M</div><div><div class="text-xs text-silver mb-1" style="text-align:right">You · Just now</div><div class="msg-bubble">Glad to be here! This is exactly what I was looking for 💪</div></div></div>
+            </div>
+            <div class="chat-input-area">
+              <div class="chat-input-row">
+                <button class="btn-icon btn" title="Attach">📎</button>
+                <button class="btn-icon btn" title="Emoji">😊</button>
+                <input class="chat-input" id="chat-input" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendMessage()"/>
+                <button class="btn btn-primary btn-sm" onclick="sendMessage()">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Events -->
+      <div id="dash-events" class="hidden">
+        <div class="page-header"><h2>Community <span class="text-yellow">Events</span></h2><p>Stay updated with upcoming meetings and events.</p></div>
+        <div class="event-card"><div class="event-cal"><div class="d">15</div><div class="m">Apr</div></div><div><div style="font-weight:600">Quarterly Summit 2026</div><div class="text-sm text-silver mt-1">Virtual · 3 PM – 6 PM IST</div><div class="flex gap-2 mt-2"><span class="badge badge-yellow">🔥 Featured</span><span class="badge badge-green">✓ Registered</span></div></div><div class="flex flex-col gap-2"><button class="btn btn-success btn-sm">RSVP'd ✓</button><button class="btn btn-ghost btn-sm">Details</button></div></div>
+        <div class="event-card"><div class="event-cal"><div class="d">22</div><div class="m">Apr</div></div><div><div style="font-weight:600">Startup Pitch Night</div><div class="text-sm text-silver mt-1">Mumbai, Maharashtra · 6 PM IST</div><div class="flex gap-2 mt-2"><span class="badge badge-blue">📍 In-Person</span></div></div><div class="flex flex-col gap-2"><button class="btn btn-primary btn-sm" onclick="toast('RSVP confirmed! 🎉','success')">RSVP Now</button><button class="btn btn-ghost btn-sm">Details</button></div></div>
+        <div class="event-card"><div class="event-cal"><div class="d">05</div><div class="m">May</div></div><div><div style="font-weight:600">Leadership Masterclass</div><div class="text-sm text-silver mt-1">Online Webinar · 4 PM IST · 90 mins</div><div class="flex gap-2 mt-2"><span class="badge badge-silver">🎓 Workshop</span></div></div><div class="flex flex-col gap-2"><button class="btn btn-primary btn-sm" onclick="toast('RSVP confirmed! 🎉','success')">RSVP Now</button><button class="btn btn-ghost btn-sm">Details</button></div></div>
+        <div class="event-card"><div class="event-cal"><div class="d">20</div><div class="m">May</div></div><div><div style="font-weight:600">SH Community Annual Gala</div><div class="text-sm text-silver mt-1">5-star Hotel, Mumbai · Evening event</div><div class="flex gap-2 mt-2"><span class="badge badge-yellow">💎 Exclusive</span></div></div><div class="flex flex-col gap-2"><button class="btn btn-primary btn-sm" onclick="toast('RSVP confirmed! 🎉','success')">RSVP Now</button><button class="btn btn-ghost btn-sm">Details</button></div></div>
+      </div>
+
+      <!-- Polls -->
+      <div id="dash-polls" class="hidden">
+        <div class="page-header"><h2>Community <span class="text-yellow">Polls</span></h2></div>
+        <div class="poll-card">
+          <div class="flex justify-between items-center mb-3"><div><div style="font-weight:600">What's the best time for our weekly meetup?</div><div class="text-xs text-silver mt-1">Created by Suraj Shinde · Ends Apr 20</div></div><span class="badge badge-green">Active</span></div>
+          <div class="poll-option" onclick="vote(this,0)"><div class="poll-option-label"><span>🌅 Morning (9–11 AM)</span><span class="text-yellow fw-600">35%</span></div><div class="poll-bar-bg"><div class="poll-bar-fill" style="width:35%"></div></div></div>
+          <div class="poll-option" onclick="vote(this,1)"><div class="poll-option-label"><span>☀️ Afternoon (2–4 PM)</span><span class="text-yellow fw-600">42%</span></div><div class="poll-bar-bg"><div class="poll-bar-fill" style="width:42%"></div></div></div>
+          <div class="poll-option" onclick="vote(this,2)"><div class="poll-option-label"><span>🌆 Evening (7–9 PM)</span><span class="text-yellow fw-600">23%</span></div><div class="poll-bar-bg"><div class="poll-bar-fill" style="width:23%"></div></div></div>
+          <div class="text-xs text-silver mt-3">38 votes · You haven't voted yet</div>
+        </div>
+        <div class="poll-card">
+          <div class="flex justify-between items-center mb-3"><div><div style="font-weight:600">Which topic should our next masterclass cover?</div><div class="text-xs text-silver mt-1">Created by Suraj Shinde · Ends Apr 25</div></div><span class="badge badge-green">Active</span></div>
+          <div class="poll-option" onclick="vote(this,3)"><div class="poll-option-label"><span>🚀 Startup Fundraising</span><span class="text-yellow fw-600">48%</span></div><div class="poll-bar-bg"><div class="poll-bar-fill" style="width:48%"></div></div></div>
+          <div class="poll-option" onclick="vote(this,4)"><div class="poll-option-label"><span>📈 Personal Branding</span><span class="text-yellow fw-600">28%</span></div><div class="poll-bar-bg"><div class="poll-bar-fill" style="width:28%"></div></div></div>
+          <div class="poll-option" onclick="vote(this,5)"><div class="poll-option-label"><span>💰 Investment Strategy</span><span class="text-yellow fw-600">24%</span></div><div class="poll-bar-bg"><div class="poll-bar-fill" style="width:24%"></div></div></div>
+          <div class="text-xs text-silver mt-3">29 votes · You haven't voted yet</div>
+        </div>
+      </div>
+
+      <!-- Announcements -->
+      <div id="dash-announcements" class="hidden">
+        <div class="page-header"><h2>Community <span class="text-yellow">Announcements</span></h2></div>
+        <div class="ann-item pinned"><div class="flex items-center gap-2 mb-2"><span class="badge badge-green">📌 Pinned</span><span class="badge badge-yellow">🔥 Important</span><span class="text-xs text-silver">March 25, 2026</span></div><div style="font-weight:600;font-size:15px">Quarterly Summit Registration Now Open</div><div class="text-sm text-silver mt-2">Register your interest for our biggest event of the year. The Q1 2026 Quarterly Summit will feature keynote speakers, networking sessions, and workshops. Limited seats — register ASAP!</div><button class="btn btn-primary btn-sm mt-2">Register Now</button></div>
+        <div class="ann-item"><div class="flex items-center gap-2 mb-2"><span class="badge badge-yellow">📢 New</span><span class="text-xs text-silver">March 20, 2026</span></div><div style="font-weight:600">New Resource Library Launched</div><div class="text-sm text-silver mt-1">Over 50 premium resources — books, templates, and courses — are now available in the member dashboard under the Resources tab.</div></div>
+        <div class="ann-item"><div class="flex items-center gap-2 mb-2"><span class="badge badge-silver">ℹ️ Update</span><span class="text-xs text-silver">March 15, 2026</span></div><div style="font-weight:600">New Chat Features Available</div><div class="text-sm text-silver mt-1">We've updated the community chat with image sharing, reactions, and improved notification settings. Check it out!</div></div>
+        <div class="ann-item"><div class="flex items-center gap-2 mb-2"><span class="badge badge-blue">🎉 Milestone</span><span class="text-xs text-silver">March 10, 2026</span></div><div style="font-weight:600">SH Community Turns 1 Year Old!</div><div class="text-sm text-silver mt-1">Today marks our first anniversary! Thank you all for being part of this incredible journey. Celebrating with special perks for all members.</div></div>
+      </div>
+
+      <!-- Files -->
+      <div id="dash-files" class="hidden">
+        <div class="page-header"><h2>File <span class="text-yellow">Sharing</span></h2></div>
+        <div class="flex gap-2 mb-3">
+          <button class="btn btn-primary" onclick="toast('File upload dialog opened','info')">📤 Upload File</button>
+          <div class="search-bar" style="flex:1;max-width:280px"><span>🔍</span><input placeholder="Search files..."/></div>
+        </div>
+        <div class="file-item"><div class="file-icon">📄</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Community_Guidelines_2026.pdf</div><div class="text-xs text-silver mt-1">Admin · 2.4 MB · March 20</div></div><button class="btn btn-ghost btn-sm" onclick="toast('Downloading...','info')">⬇️ Download</button></div>
+        <div class="file-item"><div class="file-icon">📊</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Member_Directory_Q1.xlsx</div><div class="text-xs text-silver mt-1">Admin · 540 KB · March 15</div></div><button class="btn btn-ghost btn-sm" onclick="toast('Downloading...','info')">⬇️ Download</button></div>
+        <div class="file-item"><div class="file-icon">🎨</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Brand_Assets_Pack.zip</div><div class="text-xs text-silver mt-1">Suraj Shinde · 12.8 MB · March 10</div></div><button class="btn btn-ghost btn-sm" onclick="toast('Downloading...','info')">⬇️ Download</button></div>
+        <div class="file-item"><div class="file-icon">📝</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Summit_Agenda_April2026.docx</div><div class="text-xs text-silver mt-1">Admin · 180 KB · March 25</div></div><button class="btn btn-ghost btn-sm" onclick="toast('Downloading...','info')">⬇️ Download</button></div>
+      </div>
+
+      <!-- Gallery -->
+      <div id="dash-gallery" class="hidden">
+        <div class="page-header"><h2>Community <span class="text-yellow">Gallery</span></h2></div>
+        <div class="flex gap-2 mb-3"><button class="btn btn-primary" onclick="toast('Photo upload ready','info')">📸 Upload Photo</button></div>
+        <div class="gallery-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+          <div class="gallery-item" title="Community Meet Jan 2026">🎉</div>
+          <div class="gallery-item" title="Networking Dinner">🤝</div>
+          <div class="gallery-item" title="Startup Pitch Night">🎤</div>
+          <div class="gallery-item" title="Leadership Awards">🏆</div>
+          <div class="gallery-item" title="Team Outing">⛰️</div>
+          <div class="gallery-item" title="Workshop Session">💡</div>
+          <div class="gallery-item" title="Annual Gala">🥂</div>
+          <div class="gallery-item" title="Masterclass 2025">📚</div>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div id="dash-leaderboard" class="hidden">
+        <div class="page-header"><h2>Community <span class="text-yellow">Leaderboard</span></h2><p>Earn XP by participating in events, chats, polls and more.</p></div>
+        <div class="card mb-3" style="padding:16px">
+          <div class="flex items-center gap-3">
+            <div style="font-size:28px">🏅</div>
+            <div><div class="text-sm text-silver">Your Current Rank</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px">#8 <span class="text-silver" style="font-size:16px">/ 47 members</span></div></div>
+            <div style="margin-left:auto;text-align:right"><div class="text-sm text-silver">Your XP</div><div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--yellow)">250</div></div>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="lb-item"><div class="lb-rank gold">1</div><div class="avatar-placeholder avatar-sm" style="font-size:11px">SS</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Suraj Shinde</div><div class="text-xs text-silver">Leader</div></div><div class="lb-bar"><div class="lb-bar-fill" style="width:100%"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--yellow);min-width:50px;text-align:right">980</div></div>
+          <div class="lb-item"><div class="lb-rank silver">2</div><div class="avatar-placeholder avatar-sm" style="font-size:11px;background:linear-gradient(135deg,#60a5fa,#3b82f6)">RK</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Rahul Kumar</div><div class="text-xs text-silver">Member</div></div><div class="lb-bar"><div class="lb-bar-fill" style="width:75%"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--silver);min-width:50px;text-align:right">735</div></div>
+          <div class="lb-item"><div class="lb-rank bronze">3</div><div class="avatar-placeholder avatar-sm" style="font-size:11px;background:linear-gradient(135deg,#f472b6,#ec4899)">PS</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Priya Sharma</div><div class="text-xs text-silver">Member</div></div><div class="lb-bar"><div class="lb-bar-fill" style="width:65%"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:#CD7F32;min-width:50px;text-align:right">640</div></div>
+          <div class="lb-item"><div class="lb-rank" style="color:var(--silver)">4</div><div class="avatar-placeholder avatar-sm" style="font-size:11px;background:linear-gradient(135deg,#34d399,#10b981)">AV</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Arjun Verma</div><div class="text-xs text-silver">Member</div></div><div class="lb-bar"><div class="lb-bar-fill" style="width:50%"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--silver);min-width:50px;text-align:right">490</div></div>
+          <div class="lb-item" style="background:rgba(255,215,0,0.04);border-radius:8px;padding:12px 6px"><div class="lb-rank" style="color:var(--yellow)">8</div><div class="avatar-placeholder avatar-sm" id="lb-my-avatar" style="font-size:11px">M</div><div style="flex:1"><div style="font-weight:600;font-size:13px" id="lb-my-name">You</div><div class="text-xs text-yellow">← Your rank</div></div><div class="lb-bar"><div class="lb-bar-fill" style="width:25%"></div></div><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--yellow);min-width:50px;text-align:right">250</div></div>
+        </div>
+        <div class="card mt-3" style="padding:16px">
+          <div class="text-sm fw-600 mb-2">How to earn XP</div>
+          <div class="flex flex-col gap-2 text-sm text-silver">
+            <div>💬 Send a message: +2 XP</div><div>📅 Attend an event: +25 XP</div>
+            <div>🗳️ Vote in a poll: +5 XP</div><div>📤 Share a resource: +10 XP</div>
+            <div>👥 Refer a member: +50 XP</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mentorship -->
+      <div id="dash-mentorship" class="hidden">
+        <div class="page-header"><h2>Mentorship <span class="text-yellow">Program</span></h2><p>Connect with experienced mentors in your field.</p></div>
+        <div class="tabs" style="width:fit-content">
+          <button class="tab active" onclick="setInnerTab(this)">Find Mentors</button>
+          <button class="tab" onclick="setInnerTab(this)">My Sessions</button>
+          <button class="tab" onclick="setInnerTab(this)">Become a Mentor</button>
+        </div>
+        <div class="mentor-card mb-3"><div class="avatar-placeholder avatar-lg" style="font-size:24px;flex-shrink:0">SS</div><div style="flex:1"><div class="flex justify-between items-start"><div><div style="font-weight:600;font-size:16px">Suraj Shinde</div><div class="text-sm text-silver">Founder · 8+ years experience</div></div><span class="badge badge-yellow">👑 Lead Mentor</span></div><div class="flex flex-wrap gap-2 mt-2"><span class="badge badge-silver">🚀 Startups</span><span class="badge badge-silver">💡 Leadership</span><span class="badge badge-silver">🌐 Networking</span></div><p class="text-sm text-silver mt-2">Building communities, scaling ventures, and developing leaders. Available for 1:1 mentorship sessions on business growth and strategy.</p><button class="btn btn-primary btn-sm mt-2" onclick="toast('Session request sent to Suraj!','success')">Request Session</button></div></div>
+        <div class="mentor-card mb-3"><div class="avatar-placeholder avatar-lg" style="font-size:24px;flex-shrink:0;background:linear-gradient(135deg,#60a5fa,#3b82f6)">RK</div><div style="flex:1"><div class="flex justify-between items-start"><div><div style="font-weight:600;font-size:16px">Rahul Kumar</div><div class="text-sm text-silver">Serial Entrepreneur · 5+ years</div></div><span class="badge badge-green">Available</span></div><div class="flex flex-wrap gap-2 mt-2"><span class="badge badge-silver">💰 Fundraising</span><span class="badge badge-silver">📈 Growth</span><span class="badge badge-silver">🎯 Strategy</span></div><p class="text-sm text-silver mt-2">Raised ₹2Cr+ across 3 startups. Happy to guide founders through fundraising, product-market fit, and growth strategies.</p><button class="btn btn-primary btn-sm mt-2" onclick="toast('Session request sent to Rahul!','success')">Request Session</button></div></div>
+      </div>
+
+      <!-- Resources -->
+      <div id="dash-resources" class="hidden">
+        <div class="page-header"><h2>Resource <span class="text-yellow">Library</span></h2><p>Curated books, courses, templates and tools for your growth.</p></div>
+        <div class="tabs" style="width:fit-content">
+          <button class="tab active" onclick="setInnerTab(this)">📚 Books</button>
+          <button class="tab" onclick="setInnerTab(this)">🎓 Courses</button>
+          <button class="tab" onclick="setInnerTab(this)">📋 Templates</button>
+          <button class="tab" onclick="setInnerTab(this)">🛠️ Tools</button>
+        </div>
+        <div class="grid-3">
+          <div class="resource-card" onclick="toast('Resource saved to your list!','success')"><div style="font-size:32px;margin-bottom:10px">📗</div><div style="font-weight:600;font-size:14px">Zero to One</div><div class="text-sm text-silver mt-1">Peter Thiel · Startup Bible</div><span class="badge badge-yellow mt-2">⭐ Community Pick</span></div>
+          <div class="resource-card" onclick="toast('Resource saved!','success')"><div style="font-size:32px;margin-bottom:10px">📘</div><div style="font-weight:600;font-size:14px">The Lean Startup</div><div class="text-sm text-silver mt-1">Eric Ries · Methodology</div><span class="badge badge-silver mt-2">💼 Business</span></div>
+          <div class="resource-card" onclick="toast('Resource saved!','success')"><div style="font-size:32px;margin-bottom:10px">📙</div><div style="font-weight:600;font-size:14px">Atomic Habits</div><div class="text-sm text-silver mt-1">James Clear · Self Growth</div><span class="badge badge-green mt-2">🔥 Popular</span></div>
+          <div class="resource-card" onclick="toast('Resource saved!','success')"><div style="font-size:32px;margin-bottom:10px">🎓</div><div style="font-weight:600;font-size:14px">Fundraising 101</div><div class="text-sm text-silver mt-1">Video Course · 4 hours</div><span class="badge badge-blue mt-2">🆕 New</span></div>
+          <div class="resource-card" onclick="toast('Template downloaded!','success')"><div style="font-size:32px;margin-bottom:10px">📋</div><div style="font-weight:600;font-size:14px">Pitch Deck Template</div><div class="text-sm text-silver mt-1">Google Slides · Free</div><span class="badge badge-silver mt-2">📄 Template</span></div>
+          <div class="resource-card" onclick="toast('Resource saved!','success')"><div style="font-size:32px;margin-bottom:10px">🛠️</div><div style="font-weight:600;font-size:14px">Notion Template Pack</div><div class="text-sm text-silver mt-1">Productivity · 20 templates</div><span class="badge badge-yellow mt-2">💎 Premium</span></div>
+        </div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div id="dash-whatsapp" class="hidden">
+        <div class="page-header"><h2>WhatsApp <span class="text-yellow">Group</span></h2></div>
+        <div class="wa-card">
+          <div class="wa-icon">💚</div>
+          <h3 style="font-size:22px;margin-bottom:8px">SH Community WhatsApp Group</h3>
+          <p class="text-silver text-sm mb-4">Join our official WhatsApp group to stay connected with all 47 members, get real-time updates, and participate in group discussions.</p>
+          <div class="card" style="padding:16px;max-width:380px;margin:0 auto 24px;text-align:left">
+            <div class="flex justify-between text-sm mb-2"><span class="text-silver">Members:</span><span class="fw-600">47 / 100</span></div>
+            <div class="flex justify-between text-sm mb-2"><span class="text-silver">Group Admin:</span><span class="fw-600">Suraj Shinde</span></div>
+            <div class="flex justify-between text-sm"><span class="text-silver">Status:</span><span class="badge badge-green">Active</span></div>
+          </div>
+          <button class="wa-btn" onclick="toast('Opening WhatsApp group...','success')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.14.566 4.148 1.554 5.888L.057 24l6.304-1.654A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.516-5.228-1.415l-.374-.222-3.876 1.016 1.034-3.773-.243-.386A9.94 9.94 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Join WhatsApp Group
+          </button>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div id="dash-settings" class="hidden">
+        <div class="page-header"><h2>Account <span class="text-yellow">Settings</span></h2></div>
+        <div class="settings-section">
+          <h3>🔔 Notifications</h3>
+          <div class="toggle-row"><div><div class="fw-600 text-sm">Event Reminders</div><div class="text-xs text-silver">Get notified 1 hour before events</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="toggle-row"><div><div class="fw-600 text-sm">New Announcements</div><div class="text-xs text-silver">Notify when admin posts updates</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="toggle-row"><div><div class="fw-600 text-sm">Chat Messages</div><div class="text-xs text-silver">Sound & badge for new messages</div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+          <div class="toggle-row"><div><div class="fw-600 text-sm">Poll Results</div><div class="text-xs text-silver">Notify when polls close</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        </div>
+        <div class="settings-section">
+          <h3>🔒 Privacy & Security</h3>
+          <div class="toggle-row"><div><div class="fw-600 text-sm">Show Online Status</div><div class="text-xs text-silver">Let others see when you're online</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="toggle-row"><div><div class="fw-600 text-sm">Show in Leaderboard</div><div class="text-xs text-silver">Display your rank publicly</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="form-group mt-3"><label class="form-label">Change Password</label><input class="form-input" type="password" placeholder="Current password"/></div>
+          <div class="form-group"><input class="form-input" type="password" placeholder="New password"/></div>
+          <button class="btn btn-dark" onclick="toast('Password updated!','success')">Update Password</button>
+        </div>
+        <div class="settings-section">
+          <h3>🎨 Appearance</h3>
+          <div class="flex items-center gap-3"><span class="text-sm">Theme:</span>
+            <div class="theme-pill">
+              <div class="theme-opt active">🌑 Dark</div>
+              <div class="theme-opt" onclick="toast('Light theme coming soon!','info')">☀️ Light</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-danger" onclick="if(confirm('Are you sure you want to delete your account?'))toast('Request sent to admin','info')">Delete Account</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================== NOTIFICATIONS PAGE ==================== -->
+<div class="page" id="page-notifications">
+  <div class="dashboard-layout">
+    <div class="dashboard-sidebar-space"></div>
+    <div class="dashboard-content">
+      <div class="page-header"><h2>🔔 <span class="text-yellow">Notifications</span></h2></div>
+      <div style="max-width:600px">
+        <div class="flex justify-between items-center mb-3"><span class="badge badge-yellow">3 unread</span><button class="btn btn-ghost btn-sm" onclick="markAllRead()">Mark all read</button></div>
+        <div class="notif-item unread"><div style="font-size:20px">📅</div><div style="flex:1"><div class="fw-600 text-sm">New Event: Startup Pitch Night</div><div class="text-xs text-silver mt-1">Admin added a new event for April 22nd. RSVP now to confirm your spot.</div><div class="text-xs text-yellow mt-1">2 hours ago</div></div></div>
+        <div class="notif-item unread"><div style="font-size:20px">📢</div><div style="flex:1"><div class="fw-600 text-sm">New Announcement from Admin</div><div class="text-xs text-silver mt-1">Resource Library has been updated with 10 new items.</div><div class="text-xs text-yellow mt-1">5 hours ago</div></div></div>
+        <div class="notif-item unread"><div style="font-size:20px">🏆</div><div style="flex:1"><div class="fw-600 text-sm">You've moved up the leaderboard!</div><div class="text-xs text-silver mt-1">You're now ranked #8. Keep participating to climb higher!</div><div class="text-xs text-yellow mt-1">Yesterday</div></div></div>
+        <div class="notif-item"><div style="font-size:20px">🗳️</div><div style="flex:1"><div class="fw-600 text-sm">New Poll Available</div><div class="text-xs text-silver mt-1">Vote on the best time for our weekly meetup.</div><div class="text-xs text-silver mt-1">2 days ago</div></div></div>
+        <div class="notif-item"><div style="font-size:20px">💬</div><div style="flex:1"><div class="fw-600 text-sm">Suraj Shinde replied to your message</div><div class="text-xs text-silver mt-1">"Great point! Let's discuss this in the next session."</div><div class="text-xs text-silver mt-1">3 days ago</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ADMIN PAGE ==================== -->
+<div class="page" id="page-admin">
+  <div class="dashboard-layout">
+    <div class="dashboard-sidebar-space"></div>
+    <div class="dashboard-content">
+      <div class="tabs" style="flex-wrap:wrap">
+        <button class="tab active" onclick="showAdminTab('overview',this)">🎛️ Overview</button>
+        <button class="tab" onclick="showAdminTab('requests',this)">📩 Requests</button>
+        <button class="tab" onclick="showAdminTab('members',this)">👥 Members</button>
+        <button class="tab" onclick="showAdminTab('content',this)">✏️ Content</button>
+        <button class="tab" onclick="showAdminTab('analytics',this)">📈 Analytics</button>
+        <button class="tab" onclick="showAdminTab('settings',this)">🔧 Settings</button>
+      </div>
+
+      <!-- Admin Overview -->
+      <div id="admin-overview">
+        <div class="page-header"><h2>Admin <span class="text-yellow">Dashboard</span></h2><p>Welcome back, Suraj. Here's your community at a glance.</p></div>
+        <div class="grid-4 mb-4">
+          <div class="admin-stat"><div class="n">47</div><div class="l">Total Members</div></div>
+          <div class="admin-stat"><div class="n" style="color:#4ade80">2</div><div class="l">Pending Requests</div></div>
+          <div class="admin-stat"><div class="n">280</div><div class="l">Messages Today</div></div>
+          <div class="admin-stat"><div class="n">3</div><div class="l">Events This Month</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="dash-card">
+            <div class="fw-600 mb-3">⚡ Quick Actions</div>
+            <div class="flex flex-col gap-2">
+              <button class="btn btn-dark w-full" onclick="showAdminTab('requests');toast('Viewing pending requests','info')" style="justify-content:flex-start">📩 Review Join Requests (2 pending)</button>
+              <button class="btn btn-dark w-full" onclick="openModal('create-event-modal')" style="justify-content:flex-start">📅 Create New Event</button>
+              <button class="btn btn-dark w-full" onclick="openModal('create-poll-modal')" style="justify-content:flex-start">🗳️ Create New Poll</button>
+              <button class="btn btn-dark w-full" onclick="openModal('create-announcement-modal')" style="justify-content:flex-start">📢 Post Announcement</button>
+              <button class="btn btn-dark w-full" onclick="showAdminTab('settings')" style="justify-content:flex-start">🔗 Update WhatsApp Link</button>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">📊 Community Health</div>
+            <div class="flex flex-col gap-3">
+              <div><div class="flex justify-between text-sm mb-1"><span class="text-silver">Member Capacity</span><span>47 / 100</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:47%"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span class="text-silver">Monthly Active</span><span>82%</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:82%"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span class="text-silver">Chat Engagement</span><span>91%</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:91%"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span class="text-silver">Event Attendance</span><span>68%</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:68%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Join Requests -->
+      <div id="admin-requests" class="hidden">
+        <div class="page-header"><h2>Join <span class="text-yellow">Requests</span></h2></div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>City</th><th>Profession</th><th>Date</th><th>Actions</th></tr></thead>
+            <tbody id="requests-table">
+              <tr class="request-row"><td>Neha Patel</td><td>neha@example.com</td><td>Ahmedabad</td><td>Designer</td><td>Mar 27</td><td class="flex gap-2"><button class="btn btn-success btn-sm" onclick="approveRequest(this,'Neha Patel')">✓ Approve</button><button class="btn btn-danger btn-sm" onclick="rejectRequest(this)">✗ Reject</button></td></tr>
+              <tr class="request-row"><td>Karan Mehta</td><td>karan@example.com</td><td>Delhi</td><td>Developer</td><td>Mar 26</td><td class="flex gap-2"><button class="btn btn-success btn-sm" onclick="approveRequest(this,'Karan Mehta')">✓ Approve</button><button class="btn btn-danger btn-sm" onclick="rejectRequest(this)">✗ Reject</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Members Management -->
+      <div id="admin-members" class="hidden">
+        <div class="page-header"><h2>Member <span class="text-yellow">Management</span></h2></div>
+        <div class="flex gap-2 mb-3">
+          <div class="search-bar" style="flex:1;max-width:300px"><span>🔍</span><input placeholder="Search members..."/></div>
+          <button class="btn btn-primary" onclick="toast('Add member form opened','info')">+ Add Member</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Member</th><th>Email</th><th>City</th><th>Joined</th><th>XP</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr><td><div class="flex items-center gap-2"><div class="avatar-placeholder avatar-sm" style="font-size:11px">SS</div>Suraj Shinde</div></td><td>admin@shcommunity.com</td><td>Mumbai</td><td>Jan 2025</td><td class="text-yellow fw-600">980</td><td><span class="badge badge-yellow">👑 Admin</span></td><td>—</td></tr>
+              <tr><td><div class="flex items-center gap-2"><div class="avatar-placeholder avatar-sm" style="font-size:11px;background:linear-gradient(135deg,#60a5fa,#3b82f6)">RK</div>Rahul Kumar</div></td><td>rahul@example.com</td><td>Mumbai</td><td>Feb 2025</td><td class="text-yellow fw-600">735</td><td><span class="badge badge-green">Active</span></td><td><div class="flex gap-1"><button class="btn btn-ghost btn-sm" onclick="toast('Profile opened','info')">👁️</button><button class="btn btn-danger btn-sm" onclick="toast('Member suspended','error')">🚫</button></div></td></tr>
+              <tr><td><div class="flex items-center gap-2"><div class="avatar-placeholder avatar-sm" style="font-size:11px;background:linear-gradient(135deg,#f472b6,#ec4899)">PS</div>Priya Sharma</div></td><td>priya@example.com</td><td>Pune</td><td>Feb 2025</td><td class="text-yellow fw-600">640</td><td><span class="badge badge-green">Active</span></td><td><div class="flex gap-1"><button class="btn btn-ghost btn-sm" onclick="toast('Profile opened','info')">👁️</button><button class="btn btn-danger btn-sm" onclick="toast('Member suspended','error')">🚫</button></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Content Management -->
+      <div id="admin-content" class="hidden">
+        <div class="page-header"><h2>Content <span class="text-yellow">Management</span></h2></div>
+        <div class="grid-2 gap-3">
+          <div class="dash-card">
+            <div class="fw-600 mb-3">📢 Create Announcement</div>
+            <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="ann-title" placeholder="Announcement title"/></div>
+            <div class="form-group"><label class="form-label">Message</label><textarea class="form-input form-textarea" id="ann-body" placeholder="Write your announcement..."></textarea></div>
+            <div class="flex gap-2">
+              <select class="form-input form-select" style="max-width:160px"><option>Normal</option><option>Important</option><option>Pinned</option></select>
+              <button class="btn btn-primary" onclick="postAnnouncement()">Post Announcement</button>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">📅 Create Event</div>
+            <div class="form-group"><label class="form-label">Event Title</label><input class="form-input" id="evt-title" placeholder="Event name"/></div>
+            <div class="form-group"><label class="form-label">Date & Time</label><input class="form-input" type="datetime-local" id="evt-date"/></div>
+            <div class="form-group"><label class="form-label">Location</label><input class="form-input" placeholder="Online / City"/></div>
+            <button class="btn btn-primary" onclick="createEvent()">Create Event</button>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">🗳️ Create Poll</div>
+            <div class="form-group"><label class="form-label">Question</label><input class="form-input" id="poll-q" placeholder="Poll question"/></div>
+            <div class="form-group"><label class="form-label">Option 1</label><input class="form-input" placeholder="Option A"/></div>
+            <div class="form-group"><label class="form-label">Option 2</label><input class="form-input" placeholder="Option B"/></div>
+            <button class="btn btn-primary" onclick="createPoll()">Launch Poll</button>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">📁 Upload File</div>
+            <div class="form-group"><label class="form-label">File Name</label><input class="form-input" placeholder="Document name"/></div>
+            <div style="border:2px dashed var(--border);border-radius:var(--radius-sm);padding:32px;text-align:center;cursor:pointer;transition:.2s" onmouseenter="this.style.borderColor='var(--yellow)'" onmouseleave="this.style.borderColor='var(--border)'" onclick="toast('File picker opened','info')">
+              <div style="font-size:32px;margin-bottom:8px">📤</div>
+              <div class="text-sm text-silver">Click to select file or drag & drop</div>
+              <div class="text-xs text-silver mt-1">PDF, DOCX, XLSX, ZIP up to 50MB</div>
+            </div>
+            <button class="btn btn-primary mt-2" onclick="toast('File uploaded!','success')">Upload File</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics -->
+      <div id="admin-analytics" class="hidden">
+        <div class="page-header"><h2>Community <span class="text-yellow">Analytics</span></h2></div>
+        <div class="grid-4 mb-4">
+          <div class="admin-stat"><div class="n">2.4k</div><div class="l">Total Messages</div></div>
+          <div class="admin-stat"><div class="n">94%</div><div class="l">Retention Rate</div></div>
+          <div class="admin-stat"><div class="n">8.2</div><div class="l">Avg. NPS Score</div></div>
+          <div class="admin-stat"><div class="n">156</div><div class="l">Events Attended</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="dash-card">
+            <div class="fw-600 mb-3">📊 Member Growth (2026)</div>
+            <div style="display:flex;align-items:flex-end;gap:8px;height:120px">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;background:var(--glass2);border:1px solid var(--border-y);border-radius:4px 4px 0 0;width:100%;min-height:20%;display:flex;align-items:flex-end;justify-content:center" title="Jan: 32"><div style="background:linear-gradient(var(--yellow),var(--yellow2));width:100%;height:65%;border-radius:4px 4px 0 0"></div></div><div class="text-xs text-silver">Jan</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;background:var(--glass2);border:1px solid var(--border-y);border-radius:4px 4px 0 0;width:100%"><div style="background:linear-gradient(var(--yellow),var(--yellow2));width:100%;height:72%;border-radius:4px 4px 0 0"></div></div><div class="text-xs text-silver">Feb</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;background:var(--glass2);border:1px solid var(--border-y);border-radius:4px 4px 0 0;width:100%"><div style="background:linear-gradient(var(--yellow),var(--yellow2));width:100%;height:88%;border-radius:4px 4px 0 0"></div></div><div class="text-xs text-silver">Mar</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="flex:1;background:var(--glass2);border:1px solid var(--border-y);border-radius:4px 4px 0 0;width:100%"><div style="background:linear-gradient(var(--yellow),var(--yellow2));width:100%;height:94%;border-radius:4px 4px 0 0"></div></div><div class="text-xs text-silver">Apr*</div></div>
+            </div>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">🌍 Top Cities</div>
+            <div class="flex flex-col gap-2">
+              <div><div class="flex justify-between text-sm mb-1"><span>Mumbai</span><span class="text-yellow">18 members</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:38%"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span>Pune</span><span class="text-yellow">11 members</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:23%"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span>Delhi</span><span class="text-yellow">8 members</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:17%"></div></div></div>
+              <div><div class="flex justify-between text-sm mb-1"><span>Bangalore</span><span class="text-yellow">6 members</span></div><div class="xp-bar-container"><div class="xp-bar-fill" style="width:13%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Settings -->
+      <div id="admin-settings" class="hidden">
+        <div class="page-header"><h2>Site <span class="text-yellow">Settings</span></h2></div>
+        <div class="grid-2">
+          <div class="dash-card">
+            <div class="fw-600 mb-3">🔗 WhatsApp Group Link</div>
+            <div class="form-group"><label class="form-label">Group Invite Link</label><input class="form-input" value="https://chat.whatsapp.com/SHCommunity2026" id="wa-link-input"/></div>
+            <button class="btn btn-primary" onclick="toast('WhatsApp link updated!','success')">Update Link</button>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">🏠 Community Settings</div>
+            <div class="form-group"><label class="form-label">Community Name</label><input class="form-input" value="SH Community"/></div>
+            <div class="form-group"><label class="form-label">Max Members</label><input class="form-input" type="number" value="100"/></div>
+            <div class="form-group"><label class="form-label">Tagline</label><input class="form-input" value="Private · Elite · Exclusive"/></div>
+            <button class="btn btn-primary" onclick="toast('Settings saved!','success')">Save Settings</button>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">🔒 Security Settings</div>
+            <div class="toggle-row"><div><div class="fw-600 text-sm">Registration Open</div><div class="text-xs text-silver">Allow new join requests</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><div><div class="fw-600 text-sm">Chat Enabled</div><div class="text-xs text-silver">Community chat access</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><div><div class="fw-600 text-sm">File Uploads</div><div class="text-xs text-silver">Member file sharing</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          </div>
+          <div class="dash-card">
+            <div class="fw-600 mb-3">⚠️ Danger Zone</div>
+            <div class="flex flex-col gap-2">
+              <button class="btn btn-danger w-full" onclick="toast('All messages cleared','error')" style="justify-content:flex-start">🗑️ Clear All Chat Messages</button>
+              <button class="btn btn-danger w-full" onclick="toast('Export started...','info')" style="justify-content:flex-start">📤 Export Member Data</button>
+              <button class="btn btn-danger w-full" onclick="toast('System reset initiated','error')" style="justify-content:flex-start">🔄 Reset Community Stats</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PROFILE PAGE ==================== -->
+<div class="page" id="page-profile">
+  <div class="dashboard-layout">
+    <div class="dashboard-sidebar-space"></div>
+    <div class="dashboard-content">
+      <button class="btn btn-ghost btn-sm mb-3" onclick="history.back();showPage('dashboard')">← Back</button>
+      <div id="profile-redirect-msg" class="card" style="max-width:500px">
+        <p>Loading your profile...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<!-- ===== END APP ===== -->
+
+<!-- ===== MODALS ===== -->
+<div class="modal-overlay hidden" id="forgot-modal">
+  <div class="modal">
+    <div class="modal-header"><h3 style="font-size:18px;font-weight:600">Reset Password</h3><button class="btn-icon btn" onclick="closeModal('forgot-modal')">✕</button></div>
+    <div class="modal-body">
+      <p class="text-sm text-silver mb-3">Enter your email and we'll send reset instructions.</p>
+      <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" placeholder="your@email.com"/></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('forgot-modal')">Cancel</button><button class="btn btn-primary" onclick="closeModal('forgot-modal');toast('Reset email sent!','success')">Send Reset Link</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="create-event-modal">
+  <div class="modal">
+    <div class="modal-header"><h3 style="font-size:18px;font-weight:600">Create Event</h3><button class="btn-icon btn" onclick="closeModal('create-event-modal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Event Title</label><input class="form-input" placeholder="Event name"/></div>
+      <div class="form-group"><label class="form-label">Date & Time</label><input class="form-input" type="datetime-local"/></div>
+      <div class="form-group"><label class="form-label">Location</label><input class="form-input" placeholder="Online / Venue"/></div>
+      <div class="form-group"><label class="form-label">Description</label><textarea class="form-input form-textarea" placeholder="Event details..."></textarea></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('create-event-modal')">Cancel</button><button class="btn btn-primary" onclick="closeModal('create-event-modal');toast('Event created!','success')">Create Event</button></div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+const state = {
+  currentPage: 'home',
+  user: null,
+  messages: [],
+  joinStep: 1,
+  xp: 250
+};
+
+const demoUsers = {
+  'admin@shcommunity.com': { password: 'admin123', name: 'Suraj Shinde', role: 'admin', city: 'Mumbai', initial: 'SS' },
+  'member@shcommunity.com': { password: 'member123', name: 'Rahul Kumar', role: 'member', city: 'Mumbai', initial: 'RK' }
+};
+
+// ===== NAVIGATION =====
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + page);
+  if (el) { el.classList.add('active'); state.currentPage = page; }
+  window.scrollTo(0, 0);
+  if (page === 'profile' && state.user) {
+    showDashTab('profile');
+    showPage('dashboard');
+  }
+  updateSidebar();
+}
+
+function setActiveNav(el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== SIDEBAR =====
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+}
+function updateSidebar() {
+  const memberLinks = document.getElementById('member-sidebar-links');
+  const adminLinks = document.getElementById('admin-sidebar-links');
+  const userInfo = document.getElementById('sidebar-user-info');
+  if (state.user) {
+    userInfo.style.display = 'block';
+    memberLinks.style.display = 'block';
+    document.getElementById('sidebar-name').textContent = state.user.name;
+    document.getElementById('sidebar-avatar').textContent = state.user.initial || state.user.name[0];
+    document.getElementById('sidebar-role-badge').textContent = state.user.role === 'admin' ? '👑 Admin' : '👤 Member';
+    if (state.user.role === 'admin') adminLinks.style.display = 'block';
+    else adminLinks.style.display = 'none';
+  } else {
+    userInfo.style.display = 'none';
+    memberLinks.style.display = 'none';
+    adminLinks.style.display = 'none';
+  }
+}
+
+// ===== AUTH =====
+function login() {
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+  errEl.classList.add('hidden');
+  const user = demoUsers[email];
+  if (user && user.password === password) {
+    state.user = { ...user, email };
+    updateAuthUI();
+    toast('Welcome back, ' + user.name + '! 👋', 'success');
+    if (user.role === 'admin') showPage('admin');
+    else { showPage('dashboard'); showDashTab('overview'); }
+  } else {
+    errEl.classList.remove('hidden');
+  }
+}
+
+function googleLogin() {
+  state.user = { name: 'Google User', email: 'google@example.com', role: 'member', city: 'Mumbai', initial: 'GU' };
+  updateAuthUI();
+  toast('Logged in with Google! 🎉', 'success');
+  showPage('dashboard');
+}
+
+function logout() {
+  state.user = null;
+  updateAuthUI();
+  showPage('home');
+  toast('Logged out successfully', 'info');
+}
+
+function updateAuthUI() {
+  const loggedIn = !!state.user;
+  document.getElementById('nav-logged-in').classList.toggle('hidden', !loggedIn);
+  document.getElementById('nav-logged-out').classList.toggle('hidden', loggedIn);
+  if (loggedIn) {
+    document.getElementById('nav-username').textContent = state.user.name.split(' ')[0];
+    document.getElementById('nav-avatar').textContent = state.user.initial || state.user.name[0];
+    document.getElementById('dash-welcome-name').textContent = state.user.name.split(' ')[0];
+    document.getElementById('profile-name-display').textContent = state.user.name;
+    document.getElementById('profile-role-display').textContent = state.user.role === 'admin' ? '👑 Admin' : '👤 Member';
+    document.getElementById('profile-city-display').textContent = '📍 ' + state.user.city;
+    document.getElementById('profile-name-input').value = state.user.name;
+    document.getElementById('profile-city-input').value = state.user.city;
+    document.getElementById('profile-avatar').textContent = state.user.initial || state.user.name[0];
+    document.getElementById('chat-my-avatar').textContent = state.user.initial || state.user.name[0];
+    document.getElementById('lb-my-name').textContent = state.user.name;
+    document.getElementById('lb-my-avatar').textContent = state.user.initial || state.user.name[0];
+    document.getElementById('nav-dashboard-link').style.display = 'inline-flex';
+    if (state.user.role === 'admin') document.getElementById('nav-admin-link').style.display = 'inline-flex';
+  } else {
+    document.getElementById('nav-dashboard-link').style.display = 'none';
+    document.getElementById('nav-admin-link').style.display = 'none';
+  }
+  updateSidebar();
+}
+
+function showForgotPassword() { openModal('forgot-modal'); }
+
+// ===== DASHBOARD TABS =====
+function showDashTab(tab, btn) {
+  if (!state.user) { showPage('login'); return; }
+  const tabs = ['overview','profile','chat','events','polls','announcements','files','gallery','leaderboard','mentorship','resources','whatsapp','settings'];
+  tabs.forEach(t => { const el = document.getElementById('dash-' + t); if(el) el.classList.add('hidden'); });
+  const el = document.getElementById('dash-' + tab);
+  if (el) el.classList.remove('hidden');
+  if (btn) {
+    document.querySelectorAll('#dash-tabs .tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+// ===== ADMIN TABS =====
+function showAdminTab(tab, btn) {
+  const tabs = ['overview','requests','members','content','analytics','settings'];
+  tabs.forEach(t => { const el = document.getElementById('admin-' + t); if(el) el.classList.add('hidden'); });
+  const el = document.getElementById('admin-' + tab);
+  if (el) el.classList.remove('hidden');
+}
+
+// ===== INNER TABS =====
+function setInnerTab(btn) {
+  const parent = btn.closest('.tabs');
+  parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  toast('Section: ' + btn.textContent.trim(), 'info');
+}
+
+// ===== JOIN REQUEST =====
+let joinData = {};
+function joinStep(step) {
+  if (step === 2) {
+    const name = document.getElementById('join-name').value.trim();
+    const email = document.getElementById('join-email').value.trim();
+    const phone = document.getElementById('join-phone').value.trim();
+    if (!name || !email || !phone) { toast('Please fill all required fields', 'error'); return; }
+    joinData = { name, email, phone };
+  }
+  if (step === 3) {
+    const city = document.getElementById('join-city').value.trim();
+    if (!city) { toast('Please enter your city', 'error'); return; }
+    joinData.city = city;
+  }
+  document.getElementById('join-step-1').classList.add('hidden');
+  document.getElementById('join-step-2').classList.add('hidden');
+  document.getElementById('join-step-3').classList.add('hidden');
+  document.getElementById('join-success').classList.add('hidden');
+  if (step <= 3) document.getElementById('join-step-' + step).classList.remove('hidden');
+  const progress = [33, 66, 100];
+  document.getElementById('join-progress').style.width = progress[step-1] + '%';
+  ['step-dot-1','step-dot-2','step-dot-3'].forEach((id, i) => {
+    document.getElementById(id).classList.toggle('active', i < step);
+  });
+  state.joinStep = step;
+}
+
+function submitJoinRequest() {
+  const reason = document.getElementById('join-reason').value.trim();
+  const agree = document.getElementById('join-agree').checked;
+  if (!reason) { toast('Please tell us why you want to join', 'error'); return; }
+  if (!agree) { toast('Please agree to the community rules', 'error'); return; }
+  document.getElementById('join-step-3').classList.add('hidden');
+  document.getElementById('join-success').classList.remove('hidden');
+  toast('Application submitted! 🎉', 'success');
+}
+
+// ===== CHAT =====
+function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  const container = document.getElementById('chat-messages-container');
+  const msg = document.createElement('div');
+  msg.className = 'msg mine';
+  const initial = state.user ? (state.user.initial || state.user.name[0]) : 'M';
+  msg.innerHTML = `<div class="avatar-placeholder avatar-sm" style="font-size:11px;flex-shrink:0">${initial}</div><div><div class="text-xs text-silver mb-1" style="text-align:right">You · Just now</div><div class="msg-bubble">${escHtml(text)}</div></div>`;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+  input.value = '';
+  state.xp += 2;
+  document.getElementById('dash-xp').textContent = state.xp;
+  document.getElementById('sidebar-xp').textContent = state.xp + ' / 500';
+  setTimeout(() => {
+    const replies = ['Great point! 🙌','Absolutely agree!','Thanks for sharing this 💡','Let\'s discuss this more in our next meeting!','👏','Well said!'];
+    const r = document.createElement('div');
+    r.className = 'msg';
+    r.innerHTML = `<div class="avatar-placeholder avatar-sm" style="font-size:11px;flex-shrink:0">SS</div><div><div class="text-xs text-silver mb-1">Suraj Shinde · Just now</div><div class="msg-bubble">${replies[Math.floor(Math.random()*replies.length)]}</div></div>`;
+    container.appendChild(r);
+    container.scrollTop = container.scrollHeight;
+  }, 1200);
+}
+
+function switchChat(el, room) {
+  document.querySelectorAll('.chat-room-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const names = { general:'💬 General', announcements:'📢 Announcements', networking:'🤝 Networking', resources:'📚 Resources', 'dm-suraj':'Suraj Shinde' };
+  document.getElementById('chat-room-name').textContent = names[room] || room;
+}
+
+// ===== POLLS =====
+function vote(el, id) {
+  toast('Vote recorded! +5 XP 🗳️', 'success');
+  state.xp += 5;
+  document.getElementById('dash-xp').textContent = state.xp;
+}
+
+// ===== PROFILE =====
+function editProfile() { toast('Profile editing enabled', 'info'); }
+function saveProfile() {
+  const name = document.getElementById('profile-name-input').value;
+  const city = document.getElementById('profile-city-input').value;
+  if (state.user) { state.user.name = name; state.user.city = city; }
+  document.getElementById('profile-name-display').textContent = name;
+  document.getElementById('profile-city-display').textContent = '📍 ' + city;
+  toast('Profile updated! ✅', 'success');
+}
+
+// ===== ADMIN ACTIONS =====
+function approveRequest(btn, name) {
+  const row = btn.closest('tr');
+  row.cells[5].innerHTML = '<span class="badge badge-green">✓ Approved</span>';
+  toast(name + ' has been approved! 🎉', 'success');
+}
+function rejectRequest(btn) {
+  const row = btn.closest('tr');
+  row.cells[5].innerHTML = '<span class="badge badge-red">✗ Rejected</span>';
+  toast('Request rejected', 'error');
+}
+function postAnnouncement() {
+  const title = document.getElementById('ann-title').value;
+  if (!title) { toast('Please enter a title', 'error'); return; }
+  document.getElementById('ann-title').value = '';
+  document.getElementById('ann-body').value = '';
+  toast('Announcement posted! 📢', 'success');
+}
+function createEvent() {
+  const title = document.getElementById('evt-title').value;
+  if (!title) { toast('Please enter an event title', 'error'); return; }
+  document.getElementById('evt-title').value = '';
+  toast('Event created! 📅', 'success');
+}
+function createPoll() {
+  const q = document.getElementById('poll-q').value;
+  if (!q) { toast('Please enter a question', 'error'); return; }
+  document.getElementById('poll-q').value = '';
+  toast('Poll launched! 🗳️', 'success');
+}
+function markAllRead() {
+  document.querySelectorAll('.notif-item.unread').forEach(el => el.classList.remove('unread'));
+  document.getElementById('notif-badge').style.display = 'none';
+  toast('All notifications marked as read', 'info');
+}
+
+// ===== MODALS =====
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+// ===== TOAST =====
+function toast(msg, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  const icons = { success: '✅', error: '❌', info: '💡' };
+  el.innerHTML = `<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
+  container.appendChild(el);
+  setTimeout(() => { el.style.animation = 'slideIn .3s ease reverse'; setTimeout(() => el.remove(), 300); }, 3500);
+}
+
+// ===== COUNTDOWN =====
+function updateCountdown() {
+  const target = new Date('2026-04-15T15:00:00');
+  const now = new Date();
+  const diff = target - now;
+  if (diff <= 0) return;
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hours').textContent = hours;
+  document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+  document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ===== HELPERS =====
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) { if(e.target===this) this.classList.add('hidden'); });
+});
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  showPage('home');
+  toast('Welcome to SH Community! 🚀', 'info');
+});
+</script>
+</body>
+</html>
